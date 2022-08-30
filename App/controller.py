@@ -29,9 +29,48 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
+def newController():
+    """
+    Crea una instancia del modelo
+    """
+    control = {
+        'model': None
+    }
+    control['model'] = model.newCatalog()
+    return control
+
+
 # Inicialización del Catálogo de libros
 
 # Funciones para la carga de datos
+def loadAmazonPrimeData(catalog):
+    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
+    for content in input_file:
+        model.addContentAmazonPrime(catalog, content)
+    return model.amazonPrimeSize(catalog), model.firstThreeAmazonPrime(catalog), model.lastThreeAmazonPrime(catalog)
+
+def loadDisneyPlusData(catalog):
+    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
+    for content in input_file:
+        model.addContentDisneyPlus(catalog, content)
+    return model.disneyPlusSize(catalog), model.firstThreeDisneyPlus(catalog), model.lastThreeDisneyPlus(catalog)
+
+def loadHuluData(catalog):
+    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
+    for content in input_file:
+        model.addContentHulu(catalog, content)
+    return model.huluSize(catalog), model.firstThreeHulu(catalog), model.lastThreeHulu(catalog)
+
+def loadNetflixData(catalog):
+    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
+    for content in input_file:
+        model.addContentNetflix(catalog, content)
+    return model.netflixSize(catalog), model.firstThreeNetflix(catalog), model.lastThreeNetflix(catalog)
+
 
 # Funciones de ordenamiento
 

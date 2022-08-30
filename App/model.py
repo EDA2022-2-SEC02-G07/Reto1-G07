@@ -37,121 +37,198 @@ los mismos.
 
 # Construccion de modelos
 def newCatalog():
+    catalog = {'amazon_prime': None,
+               'netflix': None,
+               'disney_plus': None,
+               'hulu': None}
 
-    catalog = {'title': None,
-               'director': None,
-               'cast':None,
-               'type': None,
-               "country": None,
-               'listed_in':None,
-               'streaming_service': None,
-               'streaming_service-title':None,
-               'date_added':None,
-               'release_year':None}
-
-    catalog['title'] = lt.newList('ARRAY_LIST')
-    catalog['director'] = lt.newList('SINGLE_LINKED',
-                                    cmpfunction=comparedirectors)
-    catalog['cast'] = lt.newList('SINGLE_LINKED',
-                                 cmpfunction=comparetagnames)
-    catalog['type'] = lt.newList('ARRAY_LIST')
-    catalog['country'] = lt.newList('ARRAY_LIST')
-    catalog['listed_in'] = lt.newList('ARRAY_LIST')
-    catalog['streaming_service'] = lt.newList('ARRAY_LIST')
-    catalog['streaming_service-title'] = lt.newList('ARRAY_LIST')
-    catalog['date_added'] = lt.newList('ARRAY_LIST')
-    catalog['relase_year'] = lt.newList('ARRAY_LIST')
+    catalog['amazon_prime'] = lt.newList('SINGLE_LINKED')
+    catalog['netflix'] = lt.newList('SINGLE_LINKED')
+    catalog['disney_plus'] = lt.newList('SINGLE_LINKED')
+    catalog['hulu'] = lt.newList('SINGLE_LINKED')
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
-def addTitle(catalog, title):
-#####
-    lt.addLast(catalog['title'], title)
-    directors = title['director'].split(",")
-    cast = title["cast".split(",")]
-    countries = title["country"]
-    for director in directors:
-        addTitleDirector(catalog, director.strip(), title)
-    for actor in cast:
-        addTitleCast(catalog, actor.strip(), title)
-    for country in countries:
-        addTitleCountry(catalog,country.strip(),title)
-    return catalog
-def addTitleDirector(catalog, directorname, title):
-    """
 
-    """
-    directors = catalog['director']
-    posdirector = lt.isPresent(directors, directorname)
-    if posdirector > 0:
-        director = lt.getElement(directors, posdirector)
-    else:
-        director = newDirector(directorname)
-        lt.addLast(directors, director)
-    lt.addLast(director['titles'], title)
+# 1.1 Amazon Prime
+def addContentAmazonPrime(catalog, content):
+    amazon = catalog['amazon_prime']
+    lt.addLast(amazon, content)
     return catalog
 
-def addTitleCast(catalog, actorname, title):
-    """
+def amazonPrimeSize(catalog):
+    return lt.size(catalog['amazon_prime'])
 
-    """
-    actors = catalog['cast']
-    posactor = lt.isPresent(actors, actorname)
-    if posactor > 0:
-        actor = lt.getElement(actors, posactor)
-    else:
-        actor = newActor(actorname)
-        lt.addLast(actors, actor)
-    lt.addLast(actor['titles'], title)
-    return catalog
-
-def addTitleCountry(catalog, countryname, title):
-    """
-
-    """
-    countries = catalog['country']
-    poscountry = lt.isPresent(countries, countryname)
-    if poscountry > 0:
-        country = lt.getElement(countries, poscountry)
-    else:
-        country = newCountry(countryname)
-        lt.addLast(countries, country)
-    lt.addLast(country['titles'], title)
-    return catalog
+def firstThreeAmazonPrime(catalog):
+    firstThree = ()
+    for i in range(0,2):
+        firstThree += (catalog['amazon_prime'][i],)
     
-def addTag(catalog, tag):
-    """
-    Adiciona un tag a la lista de tags
-    """
-    t = newTag(tag['Listed_in'], tag['tag_id'])
-    lt.addLast(catalog['tags'], t)
+    return firstThree
+
+def lastThreeAmazonPrime(catalog):
+    lastThree = ()
+    for i in range(1,3):
+        lastThree = (catalog['amazon_prime'][-i],) + lastThree
+    
+    return lastThree
+
+
+# 1.2 Disney Plus
+def addContentDisneyPlus(catalog, content):
+    amazon = catalog['disney_plus']
+    lt.addLast(amazon, content)
     return catalog
+
+def disneyPlusSize(catalog):
+    return lt.size(catalog['disney_plus'])
+
+def firstThreeDisneyPlus(catalog):
+    firstThree = ()
+    for i in range(0,2):
+        firstThree += (catalog['disney_plus'][i],)
+    
+    return firstThree
+
+def lastThreeDisneyPlus(catalog):
+    lastThree = ()
+    for i in range(1,3):
+        lastThree = (catalog['disney_plus'][-i],) + lastThree
+    
+    return lastThree
+
+
+# 1.3 Hulu
+def addContentHulu(catalog, content):
+    amazon = catalog['hulu']
+    lt.addLast(amazon, content)
+    return catalog
+
+def huluSize(catalog):
+    return lt.size(catalog['hulu'])
+
+def firstThreeHulu(catalog):
+    firstThree = ()
+    for i in range(0,2):
+        firstThree += (catalog['hulu'][i],)
+    
+    return firstThree
+
+def lastThreeHulu(catalog):
+    lastThree = ()
+    for i in range(1,3):
+        lastThree = (catalog['hulu'][-i],) + lastThree
+    
+    return lastThree
+
+
+# 1.4 Netflix
+def addContentNetflix(catalog, content):
+    amazon = catalog['netflix']
+    lt.addLast(amazon, content)
+    return catalog
+
+def netflixSize(catalog):
+    return lt.size(catalog['netflix'])
+
+def firstThreeNetflix(catalog):
+    firstThree = ()
+    for i in range(0,2):
+        firstThree += (catalog['netflix'][i],)
+    
+    return firstThree
+
+def lastThreeNetflix(catalog):
+    lastThree = ()
+    for i in range(1,3):
+        lastThree = (catalog['netflix'][-i],) + lastThree
+    
+    return lastThree
+
+# Funciones para agregar informacion al catalogo
+# 1.1
+
+
+# 1.2
+
+
+# 1.3
+
+
+# 1.4
 
 
 # Funciones para creacion de datos
-def newDirector(name):
-    """
-    """
-    director = {'name': "", "titles": None,  "average_rating": 0}
-    director['name'] = name
-    director['titles'] = lt.newList('ARRAY_LIST')
-    return director
-def newActor(name):
-    """
-    """
-    actor = {'name': "", "titles": None,  "average_rating": 0}
-    actor['name'] = name
-    actor['titles'] = lt.newList('ARRAY_LIST')
-    return actor
-def newCountry(name):
-    """
-    """
-    country = {'name': "", "titles": None,  "average_rating": 0}
-    country['name'] = name
-    country['titles'] = lt.newList('ARRAY_LIST')
-    return country
+
+# 2.1
+
+# 2.2
+
+
+# 2.3
+
+
+# 2.4
+
+
 # Funciones de consulta
+
+# 3.2
+def getTitlesByDirector(catalog, directorname):
+    """
+    Retorna un autor con sus libros a partir del nombre del autor
+    """
+    posdirector = lt.isPresent(catalog['directors'], directorname)
+    if posdirector > 0:
+        director = lt.getElement(catalog['directors'], posdirector)
+        return director
+    return None
+
+
+def getBestBooks(catalog, number):
+    """
+    Retorna los mejores libros
+    """
+    books = catalog['books']
+    bestbooks = lt.newList()
+    for cont in range(1, number+1):
+        book = lt.getElement(books, cont)
+        lt.addLast(bestbooks, book)
+    return bestbooks
+
+
+def countBooksByTag(catalog, tag):
+    """
+    Retorna los libros que fueron etiquetados con el tag
+    """
+    tags = catalog['tags']
+    bookcount = 0
+    pos = lt.isPresent(tags, tag)
+    if pos > 0:
+        tag_element = lt.getElement(tags, pos)
+        if tag_element is not None:
+            for book_tag in lt.iterator(catalog['book_tags']):
+                if tag_element['tag_id'] == book_tag['tag_id']:
+                    bookcount += 1
+    return bookcount
+
+
+def bookSize(catalog):
+    return lt.size(catalog['books'])
+
+
+def authorSize(catalog):
+    return lt.size(catalog['authors'])
+
+
+def tagSize(catalog):
+    return lt.size(catalog['tags'])
+
+
+def bookTagSize(catalog):
+    return lt.size(catalog['book_tags'])
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
