@@ -51,21 +51,21 @@ def loadAmazonPrimeData(catalog):
     return model.amazonPrimeSize(catalog), model.firstThreeAmazonPrime(catalog), model.lastThreeAmazonPrime(catalog)
 
 def loadDisneyPlusData(catalog):
-    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    contentfile = cf.data_dir + 'Streaming/disney_plus_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContentDisneyPlus(catalog, content)
     return model.disneyPlusSize(catalog), model.firstThreeDisneyPlus(catalog), model.lastThreeDisneyPlus(catalog)
 
 def loadHuluData(catalog):
-    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    contentfile = cf.data_dir + 'Streaming/hulu_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContentHulu(catalog, content)
     return model.huluSize(catalog), model.firstThreeHulu(catalog), model.lastThreeHulu(catalog)
 
 def loadNetflixData(catalog):
-    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+    contentfile = cf.data_dir + 'Streaming/netflix_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContentNetflix(catalog, content)
