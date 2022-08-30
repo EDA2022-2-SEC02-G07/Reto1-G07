@@ -37,7 +37,14 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Lista de las películas estrenadas en un periodo de tiempo")
+    print("3- Lista de programas de televisión agregados en un periodo de tiempo")
+    print("4- Encontrar contenido donde participa un acto")
+    print("5- Encontrar contenido por un género especifico")
+    print("6- Encontrar contenido producido por país")
+    print("7- Encontrar contenido con un director involucrado")
+    print("8- Listar el top de géneros con más contenido")
+    print("9-  Listar el top de los actores con más participaciones en contenido")
 
 catalog = None
 
