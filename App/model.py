@@ -155,4 +155,11 @@ def newCountry(name):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+def comparedirectors(directorname1, director):
+    if directorname1.lower() == director['name'].lower():
+        return 0
+    elif directorname1.lower() > director['name'].lower():
+        return 1
+    return -1
+
 # Funciones de ordenamiento
