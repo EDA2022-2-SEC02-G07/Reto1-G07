@@ -45,6 +45,7 @@ def printMenu():
     print("7- Encontrar contenido con un director involucrado")
     print("8- Listar el top de géneros con más contenido")
     print("9-  Listar el top de los actores con más participaciones en contenido")
+    print("0- Salir")
 
 catalog = None
 
@@ -57,8 +58,8 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
 
-    elif int(inputs[0]) == 2:
-        pass
+    elif int(inputs[0]) == 0:
+        sys.exit(0)
 
     else:
         sys.exit(0)
