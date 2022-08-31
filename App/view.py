@@ -41,7 +41,7 @@ def newController():
     return control
 
 def loadData(control):
-    Amazon,Disney,Hulu,Netflix = controller.LoadData(control)
+    Amazon,Disney,Hulu,Netflix = controller.loadData(control)
 
     return Amazon,Disney,Hulu,Netflix
 
@@ -82,7 +82,7 @@ def printMenu():
     print("9-  Listar el top de los actores con más participaciones en contenido")
     print("0- Salir")
 
-catalog = newController()
+control = newController()
 
 """
 Menu principal
@@ -97,7 +97,7 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        Data = loadData(catalog)
+        Data = loadData(control)
         PrintStreamingData(Data)
     elif int(inputs[0]) == 0:
         sys.exit(0)
