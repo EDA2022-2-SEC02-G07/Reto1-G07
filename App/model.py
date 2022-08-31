@@ -64,7 +64,7 @@ def firstThreeAmazonPrime(catalog):
     firstThree = ()
 
     for i in range(0,2):
-
+        
         contentTitle = catalog['amazon_prime'][i]['title']
         releaseDate = catalog['amazon_prime'][i]['release_year']
         duration = catalog['amazon_prime'][i]['duration']
