@@ -87,6 +87,11 @@ catalog = newController()
 """
 Menu principal
 """
+
+
+
+
+
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')

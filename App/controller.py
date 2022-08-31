@@ -40,7 +40,19 @@ def newController():
     return control
 
 
-# Inicialización del Catálogo de libros
+# Inicialización del Catálogo de contenido
+
+def loadData(control):
+    """
+    Carga los datos de los archivos y cargar los datos en la
+    estructura de datos
+    """
+    catalog = control['model']
+    amazonPrimeContent = loadAmazonPrimeData(catalog)
+    disneyPlusContent = loadDisneyPlusData(catalog)
+    huluContent = loadHuluData(catalog)
+    netflixContent = loadNetflixData(catalog)
+    return amazonPrimeContent, disneyPlusContent, huluContent, netflixContent
 
 # Funciones para la carga de datos
 def loadAmazonPrimeData(catalog):
