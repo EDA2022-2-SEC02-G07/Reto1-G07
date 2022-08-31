@@ -33,6 +33,41 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
+def newController():
+    """
+        Se crea una instancia del controlador
+    """
+    control = controller.newController()
+    return control
+
+def loadData(control):
+    Amazon,Disney,Hulu,Netflix = controller.LoadData(control)
+
+    return Amazon,Disney,Hulu,Netflix
+
+def PrintStreamingData(control):
+    Amazon,Disney,Hulu,Netflix= loadData(control)
+    
+    size_Amazon, first_Amazon, last_Amazon = Amazon
+    size_Disney, first_Disney, last_Disney = Disney
+    size_Hulu, first_Hulu, last_Hulu = Hulu
+    size_Netflix, first_Netflix, last_Netflix = Netflix  
+
+    print("Total de Contenidos Amazon Prime Video: " + str(size_Amazon))
+    print(first_Amazon)
+    print(last_Amazon)
+    
+    print("Total de Contenidos Disney Plus: " + str(size_Disney))
+    print(first_Disney)
+    print(last_Disney)
+
+    print("Total de Contenidos Hulu: " + str(size_Hulu))
+    print(first_Hulu)
+    print(last_Hulu)
+
+    print("Total de Contenidos Netflix: " + str(size_Netflix))
+    print(first_Netflix)
+    print(last_Netflix)
 
 def printMenu():
     print("Bienvenido")
@@ -47,7 +82,7 @@ def printMenu():
     print("9-  Listar el top de los actores con más participaciones en contenido")
     print("0- Salir")
 
-catalog = None
+catalog = newController()
 
 """
 Menu principal
@@ -62,7 +97,7 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        PrintStreamingData(catalog)
     elif int(inputs[0]) == 0:
         sys.exit(0)
 
