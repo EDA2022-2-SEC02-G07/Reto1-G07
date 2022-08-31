@@ -54,20 +54,20 @@ def PrintStreamingData(Data):
     size_Netflix, first_Netflix, last_Netflix = Netflix  
 
     print("Total de Contenidos Amazon Prime Video: " + str(size_Amazon))
-    print(first_Amazon)
-    print(last_Amazon)
+    print("Primeros 3 contenidos de Amazon:\n", str(first_Amazon))
+    print("Ultimos 3 contenidos de Amazon:\n", str(last_Amazon))
     
     print("Total de Contenidos Disney Plus: " + str(size_Disney))
-    print(first_Disney)
-    print(last_Disney)
+    print("Primeros 3 contenidos de Disney Plus:\n", str(first_Disney))
+    print("Ultimos 3 contenidos de Disney Plus:\n", str(last_Disney))
 
     print("Total de Contenidos Hulu: " + str(size_Hulu))
-    print(first_Hulu)
-    print(last_Hulu)
+    print("Primeros 3 contenidos de Hulu:\n", str(first_Hulu))
+    print("Ultimos 3 contenidos de Hulu:\n", str(last_Hulu))
 
     print("Total de Contenidos Netflix: " + str(size_Netflix))
-    print(first_Netflix)
-    print(last_Netflix)
+    print("Primeros 3 contenidos de Netflix:\n", str(first_Netflix))
+    print("Primeros 3 contenidos de Netflix:\n", str(last_Netflix))
 
 def printMenu():
     print("Bienvenido")

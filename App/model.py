@@ -42,10 +42,10 @@ def newCatalog():
                'disney_plus': None,
                'hulu': None}
 
-    catalog['amazon_prime'] = lt.newList('SINGLE_LINKED')
-    catalog['netflix'] = lt.newList('SINGLE_LINKED')
-    catalog['disney_plus'] = lt.newList('SINGLE_LINKED')
-    catalog['hulu'] = lt.newList('SINGLE_LINKED')
+    catalog['amazon_prime'] = lt.newList('DOUBLE_LINKED')
+    catalog['netflix'] = lt.newList('DOUBLE_LINKED')
+    catalog['disney_plus'] = lt.newList('DOUBLE_LINKED')
+    catalog['hulu'] = lt.newList('DOUBLE_LINKED')
 
     return catalog
 
@@ -63,28 +63,39 @@ def amazonPrimeSize(catalog):
 def firstThreeAmazonPrime(catalog):
     firstThree = ()
 
-    for i in range(0,2):
+    i = 0
+    node = catalog['amazon_prime']['first']
+    while i < 3:
         
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         firstThree += ([contentTitle, releaseDate, duration, rating],)
-    
+
+        node = node['next']
+        i += 1
+
     return firstThree
 
 def lastThreeAmazonPrime(catalog):
     lastThree = ()
-    for i in range(1,3):
+    
+    i = 0
+    node = catalog['amazon_prime']['last']
+    while i < 3:
         
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         lastThree = ([contentTitle, releaseDate, duration, rating],) + lastThree
-    
+
+        node = node['prev']
+        i += 1
+
     return lastThree
 
 
@@ -99,26 +110,39 @@ def disneyPlusSize(catalog):
 
 def firstThreeDisneyPlus(catalog):
     firstThree = ()
-    for i in range(0,2):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['disney_plus']['first']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         firstThree += ([contentTitle, releaseDate, duration, rating],)
-    
+
+        node = node['next']
+        i += 1
+
+    #print(firstThree)
     return firstThree
 
 def lastThreeDisneyPlus(catalog):
     lastThree = ()
-    for i in range(1,3):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['disney_plus']['last']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         lastThree = ([contentTitle, releaseDate, duration, rating],) + lastThree
-    
+
+        node = node['prev']
+        i += 1
+
     return lastThree
 
 
@@ -133,26 +157,39 @@ def huluSize(catalog):
 
 def firstThreeHulu(catalog):
     firstThree = ()
-    for i in range(0,2):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['hulu']['first']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         firstThree += ([contentTitle, releaseDate, duration, rating],)
-    
+
+        node = node['next']
+        i += 1
+
+    #print(firstThree)
     return firstThree
 
 def lastThreeHulu(catalog):
     lastThree = ()
-    for i in range(1,3):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['hulu']['last']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         lastThree = ([contentTitle, releaseDate, duration, rating],) + lastThree
-    
+
+        node = node['prev']
+        i += 1
+
     return lastThree
 
 
@@ -167,25 +204,38 @@ def netflixSize(catalog):
 
 def firstThreeNetflix(catalog):
     firstThree = ()
-    for i in range(0,2):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['netflix']['first']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         firstThree += ([contentTitle, releaseDate, duration, rating],)
-    
+
+        node = node['next']
+        i += 1
+
+    #print(firstThree)
     return firstThree
 
 def lastThreeNetflix(catalog):
     lastThree = ()
-    for i in range(1,3):
-        contentTitle = catalog['amazon_prime'][i]['title']
-        releaseDate = catalog['amazon_prime'][i]['release_year']
-        duration = catalog['amazon_prime'][i]['duration']
-        rating = catalog['amazon_prime'][i]['rating']
+    i = 0
+    node = catalog['netflix']['last']
+    while i < 3:
+        
+        contentTitle = node['info']['title']
+        releaseDate = node['info']['release_year']
+        duration = node['info']['duration']
+        rating = node['info']['rating']
 
         lastThree = ([contentTitle, releaseDate, duration, rating],) + lastThree
-    
+
+        node = node['prev']
+        i += 1
+
     return lastThree
 
