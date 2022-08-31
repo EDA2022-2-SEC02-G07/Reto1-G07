@@ -29,7 +29,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
-
+from datetime import datetime
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
@@ -239,3 +239,40 @@ def lastThreeNetflix(catalog):
 
     return lastThree
 
+def TitleByTime(catalog,firstDate,LastDate):
+
+    amazon = catalog["amazon_prime"]
+    netflix = catalog["netflix"] 
+    disney = catalog["disney_plus"]
+    hulu = catalog["hulu"]
+
+    returnlist = lt.newList("SIGLE_LINKED")
+    for title in lt.iterator(amazon):
+        date = title["date_added"]
+        if DateCompare(date,firstDate,LastDate) == True:
+            lt.addLast(returnlist,title)
+    for title in lt.iterator(netflix):
+        date = title["date_added"]
+        if DateCompare(date,firstDate,LastDate) == True:
+            lt.addLast(returnlist,title)
+    for title in lt.iterator(disney):
+        date = title["date_added"]
+        if DateCompare(date,firstDate,LastDate) == True:
+            lt.addLast(returnlist,title)
+    for title in lt.iterator(hulu):
+        date = title["date_added"]
+        if DateCompare(date,firstDate,LastDate) == True:
+            lt.addLast(returnlist,title)
+
+def DateCompare(date,firstDate,LastDate):
+    date = date.split("-")
+    first_list = firstDate.split("-")
+    last_list = LastDate.split("-")
+    if ((datetime(int(date[0]),int(date[1]),int(date[2]))) >= (datetime(int(first_list[0]),int(first_list[1]),int(first_list[2])))) and ((datetime(int(date[0]),int(date[1]),int(date[2]))) >= (datetime(int(last_list[0]),int(last_list[1]),int(last_list[2])))):
+        return True
+    else:
+        return False
+def FirstAndLastTitleByTime(list):
+    first_three = lt.subList(list,0,3)
+    last_three = lt.subList(list,(lt.size(list)-2),3)
+    return first_three,last_three

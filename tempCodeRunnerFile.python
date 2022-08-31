@@ -1,0 +1,7 @@
+from DISClib.ADT import list as lt
+
+a = lt.newList("SIGLE-LINKED")
+for i in range(9):
+    lt.addLast(a,2)
+
+print(a)
