@@ -45,8 +45,8 @@ def loadData(control):
 
     return Amazon,Disney,Hulu,Netflix
 
-def PrintStreamingData(control):
-    Amazon,Disney,Hulu,Netflix= loadData(control)
+def PrintStreamingData(Data):
+    Amazon,Disney,Hulu,Netflix= Data
     
     size_Amazon, first_Amazon, last_Amazon = Amazon
     size_Disney, first_Disney, last_Disney = Disney
@@ -97,7 +97,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        PrintStreamingData(catalog)
+        Data = loadData(catalog)
+        PrintStreamingData(Data)
     elif int(inputs[0]) == 0:
         sys.exit(0)
 
