@@ -52,6 +52,7 @@ def loadData(control):
     disneyPlusContent = loadDisneyPlusData(catalog)
     huluContent = loadHuluData(catalog)
     netflixContent = loadNetflixData(catalog)
+    
     return amazonPrimeContent, disneyPlusContent, huluContent, netflixContent
 
 # Funciones para la carga de datos
