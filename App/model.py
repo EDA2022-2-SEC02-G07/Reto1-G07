@@ -59,9 +59,20 @@ def StreamingSize(catalog,streaming_platform):
     return lt.size(catalog[streaming_platform])
 
 def firstThree(catalog,streamingService):
-    streaming_list = catalog[streamingService]
-    return lt.subList(streaming_list,0,3)
-
+    streaming_list = catalog[streamingService] 
+    sublist = lt.subList(streaming_list,0,3)
+    tuple = ()
+    for i in lt.iterator(sublist):
+        dictt = {"title":i["title"], "release_year":i["release_year"],
+        "duration":i["duration"],"listed_in":i["listed_in"]}
+        tuple += (dictt,)
+    return tuple
 def lastThree(catalog,streamingService):
     streaming_list = catalog[streamingService]
-    return lt.subList(streaming_list,(lt.size(streaming_list)-2),3)
+    sublist = lt.subList(streaming_list,(lt.size(streaming_list)-2),3)
+    tuple = ()
+    for i in lt.iterator(sublist):
+        dictt = {"title":i["title"], "release_year":i["release_year"],
+        "duration":i["duration"],"listed_in":i["listed_in"]}
+        tuple += (dictt,)
+    return tuple
