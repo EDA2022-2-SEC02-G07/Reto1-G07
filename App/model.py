@@ -50,6 +50,19 @@ def newCatalog():
     return catalog
 
 # Funciones para agregar informacion al catalogo
+def addContent(catalog, content,streaming_platform):
+    platform = catalog[streaming_platform]
+    lt.addLast(platform, content)
+    return catalog
+
+def StreamingSize(catalog,streaming_platform):
+    return lt.size(catalog[streaming_platform])
+
+def firstThree(streaming_list):
+    return lt.subList(streaming_list,0,3)
+
+def lastThreeAmazonPrime(streaming_list):
+    return lt.subList(streaming_list,(lt.size(streaming_list)-2),3)
 
 # 1.1 Amazon Prime
 def addContentAmazonPrime(catalog, content):
