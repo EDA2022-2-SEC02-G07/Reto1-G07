@@ -85,6 +85,10 @@ def loadNetflixData(catalog):
     return model.netflixSize(catalog), model.firstThreeNetflix(catalog), model.lastThreeNetflix(catalog)
 
 
+
+
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+def TitleByTime (catalog,firstDate,LastDate):
+    return model.TitleByTime(catalog["model"],firstDate,LastDate)

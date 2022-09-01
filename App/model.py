@@ -29,7 +29,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
-from datetime import datetime
+import time
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
@@ -246,33 +246,76 @@ def TitleByTime(catalog,firstDate,LastDate):
     disney = catalog["disney_plus"]
     hulu = catalog["hulu"]
 
-    returnlist = lt.newList("SIGLE_LINKED")
+    returnlist = lt.newList("DOUBLE_LINKED")
+
     for title in lt.iterator(amazon):
         date = title["date_added"]
-        if DateCompare(date,firstDate,LastDate) == True:
-            lt.addLast(returnlist,title)
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Amazon Prime"))
     for title in lt.iterator(netflix):
         date = title["date_added"]
-        if DateCompare(date,firstDate,LastDate) == True:
-            lt.addLast(returnlist,title)
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Netflix"))
     for title in lt.iterator(disney):
         date = title["date_added"]
-        if DateCompare(date,firstDate,LastDate) == True:
-            lt.addLast(returnlist,title)
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Disney Plus"))
     for title in lt.iterator(hulu):
         date = title["date_added"]
-        if DateCompare(date,firstDate,LastDate) == True:
-            lt.addLast(returnlist,title)
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Hulu"))
 
+    sa.sort(returnlist, comparedate)
+
+    return FirstAndLastTitleByTime(returnlist)
+
+def TitleSimplify(title,service):
+    simplify = {"type":title["type"],"date_added":title["date_added"],
+        "title":title["title"],
+        "duration":title["duration"],
+        "date_added":title["date_added"],
+        "streaming_service":service,
+        "director":title["director"],
+        "cast":title["cast"]}
+    for key in simplify:
+        if simplify[key] == '':
+            simplify[key] = "Unkown"
+    return simplify
 def DateCompare(date,firstDate,LastDate):
-    date = date.split("-")
-    first_list = firstDate.split("-")
-    last_list = LastDate.split("-")
-    if ((datetime(int(date[0]),int(date[1]),int(date[2]))) >= (datetime(int(first_list[0]),int(first_list[1]),int(first_list[2])))) and ((datetime(int(date[0]),int(date[1]),int(date[2]))) >= (datetime(int(last_list[0]),int(last_list[1]),int(last_list[2])))):
+    date__ = time.strptime(date, "%Y-%m-%d")
+    firstDate_ = time.strptime(firstDate, "%Y-%m-%d")
+    LastDate_ = time.strptime(LastDate, "%Y-%m-%d")
+
+    if date__ <= LastDate_ and date__ >= firstDate_:
         return True
     else:
         return False
 def FirstAndLastTitleByTime(list):
-    first_three = lt.subList(list,0,3)
-    last_three = lt.subList(list,(lt.size(list)-2),3)
-    return first_three,last_three
+    i = 0
+    first = []
+    last = []
+    nodo1 = list["first"]
+    nodo2 = list["last"]["prev"]["prev"]
+    while i < 3:
+        first.append(nodo1["info"])
+        last.append(nodo2["info"])
+        nodo1 = nodo1["next"]
+        nodo2 = nodo2["next"]
+        i += 1
+    return lt.size(list),first,last
+def comparedate(pelicula1, pelicula2):
+
+    fecha1 = str(pelicula1["date_added"])
+    fecha2 = str(pelicula2["date_added"])
+
+    fechadatetime1 = time.strptime(fecha1, "%Y-%m-%d")
+    fechadatetime2 = time.strptime(fecha2, "%Y-%m-%d")
+
+    if fechadatetime1 > fechadatetime2:
+        return True
+    if fechadatetime1 == fechadatetime2:
+        return False
