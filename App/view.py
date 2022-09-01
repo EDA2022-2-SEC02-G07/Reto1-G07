@@ -68,10 +68,11 @@ def PrintStreamingData(Data):
     print("Primeros 3 contenidos de Netflix:\n", str(first_Netflix))
     print("Primeros 3 contenidos de Netflix:\n", str(last_Netflix))
 
-def printReq2(control,date1,date2):
+def printReq2(control,date1,date2):########Req2
     size,first_three,last_three = controller.TitleByTime(control,date1,date2)
     print("Hay "+str(size),"'TV SHOW' entre "+date1,"y " + date2+".")
     print("Los Primeros y ultimos 3 programas son:\n" + str(first_three),str(last_three))
+
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -105,7 +106,7 @@ while True:
     if int(inputs[0]) == 2:
        date1 = input("Ingrese la primera fecha: ")
        date2 = input("ingrese la segunda fecha: ")
-       printReq2(control,date1,date2)
+       printReq2(control,date1,date2)##Req2
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
