@@ -32,9 +32,9 @@ This repository is part of the data structure and algorithms (#EDA) teaching fra
 
 The students edit this section to add their names, Uniandes emails, and specify which project functionality of the project they will implement.
 
-1. Req 1,5,7 - Guillermo Antonio Villalba Escamilla , 202114000, g.villalba@uniandes.edu.co
-2. Req 2,3,8 - Nicolás Ruiz Pérez , 202123608, n.ruizp2@uniandes.edu.co
-3. Req 4,6 - Juan José Tovar, 202113204, jj.tovar@uniandes.edu.co
+1. Req 5 - Guillermo Antonio Villalba Escamilla , 202114000, g.villalba@uniandes.edu.co
+2. Req 3 - Nicolás Ruiz Pérez , 202123608, n.ruizp2@uniandes.edu.co
+3. Req 4 - Juan José Tovar, 202113204, jj.tovar@uniandes.edu.co
 
 [Back to top](#challenge-template)
 
