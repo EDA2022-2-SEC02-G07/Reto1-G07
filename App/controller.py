@@ -60,29 +60,29 @@ def loadAmazonPrimeData(catalog):
     contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
-        model.addContentAmazonPrime(catalog, content)
-    return model.amazonPrimeSize(catalog), model.firstThreeAmazonPrime(catalog), model.lastThreeAmazonPrime(catalog)
+        model.addContent(catalog, content,'amazon_prime')
+    return model.StreamingSize(catalog,'amazon_prime'), model.firstThree(catalog,'amazon_prime'), model.lastThree(catalog,'amazon_prime')
 
 def loadDisneyPlusData(catalog):
     contentfile = cf.data_dir + 'Streaming/disney_plus_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
-        model.addContentDisneyPlus(catalog, content)
-    return model.disneyPlusSize(catalog), model.firstThreeDisneyPlus(catalog), model.lastThreeDisneyPlus(catalog)
+        model.addContent(catalog, content,'disney_plus')
+    return model.StreamingSize(catalog,'disney_plus'), model.firstThree(catalog,'disney_plus'), model.lastThree(catalog,'disney_plus')
 
 def loadHuluData(catalog):
     contentfile = cf.data_dir + 'Streaming/hulu_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
-        model.addContentHulu(catalog, content)
-    return model.huluSize(catalog), model.firstThreeHulu(catalog), model.lastThreeHulu(catalog)
+        model.addContent(catalog, content,'hulu')
+    return model.StreamingSize(catalog,'hulu'), model.firstThree(catalog,'hulu'), model.lastThree(catalog,'hulu')
 
 def loadNetflixData(catalog):
     contentfile = cf.data_dir + 'Streaming/netflix_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
-        model.addContentNetflix(catalog, content)
-    return model.netflixSize(catalog), model.firstThreeNetflix(catalog), model.lastThreeNetflix(catalog)
+        model.addContent(catalog, content,'netflix')
+    return model.StreamingSize(catalog,'netflix'), model.firstThree(catalog,'netflix'), model.lastThree(catalog,'netflix')
 
 
 # Funciones de ordenamiento

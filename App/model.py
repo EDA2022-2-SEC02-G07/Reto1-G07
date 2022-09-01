@@ -58,10 +58,12 @@ def addContent(catalog, content,streaming_platform):
 def StreamingSize(catalog,streaming_platform):
     return lt.size(catalog[streaming_platform])
 
-def firstThree(streaming_list):
+def firstThree(catalog,streamingService):
+    streaming_list = catalog[streamingService]
     return lt.subList(streaming_list,0,3)
 
-def lastThreeAmazonPrime(streaming_list):
+def lastThree(catalog,streamingService):
+    streaming_list = catalog[streamingService]
     return lt.subList(streaming_list,(lt.size(streaming_list)-2),3)
 
 # 1.1 Amazon Prime
