@@ -42,42 +42,54 @@ def newController(ListType):
 
 # Inicialización del Catálogo de contenido
 
-def loadData(control):
+def loadData(control,size):
     """
     Carga los datos de los archivos y cargar los datos en la
     estructura de datos
     """
     catalog = control['model']
-    amazonPrimeContent = loadAmazonPrimeData(catalog)
-    disneyPlusContent = loadDisneyPlusData(catalog)
-    huluContent = loadHuluData(catalog)
-    netflixContent = loadNetflixData(catalog)
+    amazonPrimeContent = loadAmazonPrimeData(catalog,size)
+    disneyPlusContent = loadDisneyPlusData(catalog,size)
+    huluContent = loadHuluData(catalog,size)
+    netflixContent = loadNetflixData(catalog,size)
     
     return amazonPrimeContent, disneyPlusContent, huluContent, netflixContent
 
 # Funciones para la carga de datos
-def loadAmazonPrimeData(catalog):
-    contentfile = cf.data_dir + 'Streaming/amazon_prime_titles-utf8-small.csv'
+def loadAmazonPrimeData(catalog,size):
+    if size == None:
+        size == "-large"
+    file = 'Streaming/amazon_prime_titles-utf8'+size+'.csv'
+    contentfile = cf.data_dir + file
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'amazon_prime')
     return model.StreamingSize(catalog,'amazon_prime'), model.firstThree(catalog,'amazon_prime'), model.lastThree(catalog,'amazon_prime')
 
-def loadDisneyPlusData(catalog):
-    contentfile = cf.data_dir + 'Streaming/disney_plus_titles-utf8-small.csv'
+def loadDisneyPlusData(catalog,size):
+    if size == None:
+        size == "-large"
+    file = 'Streaming/disney_plus_titles-utf8'+size+'.csv'
+    contentfile = cf.data_dir + file
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'disney_plus')
     return model.StreamingSize(catalog,'disney_plus'), model.firstThree(catalog,'disney_plus'), model.lastThree(catalog,'disney_plus')
 
-def loadHuluData(catalog):
-    contentfile = cf.data_dir + 'Streaming/hulu_titles-utf8-small.csv'
+def loadHuluData(catalog,size):
+    if size == None:
+        size == "-large"
+    file = 'Streaming/hulu_titles-utf8'+size+'.csv'
+    contentfile = cf.data_dir + file
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'hulu')
     return model.StreamingSize(catalog,'hulu'), model.firstThree(catalog,'hulu'), model.lastThree(catalog,'hulu')
 
-def loadNetflixData(catalog):
+def loadNetflixData(catalog,size):
+    if size == None:
+        size == "-large"
+    file = 'Streaming/netflix_titles-utf8'+size+'.csv'
     contentfile = cf.data_dir + 'Streaming/netflix_titles-utf8-small.csv'
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
@@ -86,5 +98,6 @@ def loadNetflixData(catalog):
 
 
 # Funciones de ordenamiento
-
+def sortbydate(catalog,algorithm):
+    return model.sortbydate(catalog["model"],algorithm)
 # Funciones de consulta sobre el catálogo

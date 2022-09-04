@@ -39,9 +39,24 @@ def newController(ListType = "SINGLE_LINKED"):
     """
     control = controller.newController(ListType)
     return control
-
-def loadData(control):
-    Amazon,Disney,Hulu,Netflix = controller.loadData(control)
+def selector():
+    ints = input("Ingrese el tipo de lista:\nLINKED_LIST:0\nARRAY_LIST:1\n")
+    if ints == "0":
+        control = newController()
+    elif ints == "1":
+        control = newController("ARRAY_LIST")
+    else:
+        control = None
+    size = input("Ingrese el tamaño de la muestra:(-5pct,-10pct,-20pct,-30pct,-50pct,-80pct,-small,-large)\n")
+    if size[0] != "-":
+        size = None
+    algorithm = input("Ingrese el algoritmo deseado:\nSelection:0\nInsertion:1\nShell:2\n")
+    return control,size,algorithm
+def sortbydate(control,algorithm):
+    sorted_catalog,deltatime = controller.sortbydate(control,algorithm)
+    print("Tiempo de ejecución:",str(deltatime))
+def loadData(control,size):
+    Amazon,Disney,Hulu,Netflix = controller.loadData(control,size)
 
     return Amazon,Disney,Hulu,Netflix
 
@@ -80,18 +95,16 @@ def printMenu():
     print("7- Encontrar contenido con un director involucrado")
     print("8- Listar el top de géneros con más contenido")
     print("9-  Listar el top de los actores con más participaciones en contenido")
-    print("10- Definir estructura de datos catalogo")
+    print("10- Definir lista,tamaño y algoritmo")
+    print("11- Ordenar Listas por año de lanzamiento.")
     print("0- Salir")
 
 control = None
-
+size = "-small"
+algorithm = 0
 """
 Menu principal
 """
-
-
-
-
 
 while True:
     printMenu()
@@ -100,14 +113,12 @@ while True:
         if control == None:
             control = newController()
         print("Cargando información de los archivos ....")
-        Data = loadData(control)
+        Data = loadData(control,size)
         PrintStreamingData(Data)
     elif int(inputs) == 10:
-        ints = input("Ingrese el tipo de lista:\nLINKED_LIST:0\nARRAY_LIST:1\n")
-        if int(ints[0]) == 0:
-            control = newController()
-        elif int(ints[0]) == 1:
-            control = newController("ARRAY_LIST")
+        control,size,algorithm = selector()
+    elif int(inputs) == 11:
+        sortbydate(control,algorithm)
     elif int(inputs[0]) == 0:
         sys.exit(0)
 
