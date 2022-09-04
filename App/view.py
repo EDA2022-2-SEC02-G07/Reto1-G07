@@ -51,7 +51,7 @@ def selector():
     if size[0] != "-":
         size = None
     algorithm = input("Ingrese el algoritmo deseado:\nSelection:0\nInsertion:1\nShell:2\n")
-    return control,size,algorithm
+    return control,size,int(algorithm)
 def sortbydate(control,algorithm):
     sorted_catalog,deltatime = controller.sortbydate(control,algorithm)
     print("Tiempo de ejecución:",str(deltatime))
