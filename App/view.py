@@ -33,11 +33,11 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-def newController():
+def newController(ListType = "SINGLE_LINKED"):
     """
         Se crea una instancia del controlador
     """
-    control = controller.newController()
+    control = controller.newController(ListType)
     return control
 
 def loadData(control):
@@ -80,9 +80,10 @@ def printMenu():
     print("7- Encontrar contenido con un director involucrado")
     print("8- Listar el top de géneros con más contenido")
     print("9-  Listar el top de los actores con más participaciones en contenido")
+    print("10- Definir estructura de datos catalogo")
     print("0- Salir")
 
-control = newController()
+control = None
 
 """
 Menu principal
@@ -95,10 +96,18 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+    if int(inputs) == 1:
+        if control == None:
+            control = newController()
         print("Cargando información de los archivos ....")
         Data = loadData(control)
         PrintStreamingData(Data)
+    elif int(inputs) == 10:
+        ints = input("Ingrese el tipo de lista:\nLINKED_LIST:0\nARRAY_LIST:1\n")
+        if int(ints[0]) == 0:
+            control = newController()
+        elif int(ints[0]) == 1:
+            control = newController("ARRAY_LIST")
     elif int(inputs[0]) == 0:
         sys.exit(0)
 

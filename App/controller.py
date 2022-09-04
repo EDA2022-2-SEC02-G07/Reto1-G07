@@ -29,14 +29,14 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-def newController():
+def newController(ListType):
     """
     Crea una instancia del modelo
     """
     control = {
         'model': None
     }
-    control['model'] = model.newCatalog()
+    control['model'] = model.newCatalog(ListType)
     return control
 
 

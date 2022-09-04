@@ -36,16 +36,16 @@ los mismos.
 """
 
 # Construccion de modelos
-def newCatalog():
+def newCatalog(ListType):
     catalog = {'amazon_prime': None,
                'netflix': None,
                'disney_plus': None,
                'hulu': None}
 
-    catalog['amazon_prime'] = lt.newList('DOUBLE_LINKED')
-    catalog['netflix'] = lt.newList('DOUBLE_LINKED')
-    catalog['disney_plus'] = lt.newList('DOUBLE_LINKED')
-    catalog['hulu'] = lt.newList('DOUBLE_LINKED')
+    catalog['amazon_prime'] = lt.newList(ListType)
+    catalog['netflix'] = lt.newList(ListType)
+    catalog['disney_plus'] = lt.newList(ListType)
+    catalog['hulu'] = lt.newList(ListType)
 
     return catalog
 
