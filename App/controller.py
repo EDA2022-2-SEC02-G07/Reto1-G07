@@ -90,7 +90,7 @@ def loadNetflixData(catalog,size):
     if size == None:
         size == "-large"
     file = 'Streaming/netflix_titles-utf8'+size+'.csv'
-    contentfile = cf.data_dir + 'Streaming/netflix_titles-utf8-small.csv'
+    contentfile = cf.data_dir + file
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'netflix')
