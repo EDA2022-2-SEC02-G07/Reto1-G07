@@ -27,7 +27,7 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as sa
 assert cf
 import time
 """
@@ -131,6 +131,7 @@ def lastThreeDisneyPlus(catalog):
     lastThree = ()
     i = 0
     node = catalog['disney_plus']['last']
+    print(node["info"]["cast"])
     while i < 3:
         
         contentTitle = node['info']['title']
@@ -238,7 +239,7 @@ def lastThreeNetflix(catalog):
         i += 1
 
     return lastThree
-
+#######################################################
 def TitleByTime(catalog,firstDate,LastDate):####REQ2
 
     amazon = catalog["amazon_prime"]
@@ -246,7 +247,7 @@ def TitleByTime(catalog,firstDate,LastDate):####REQ2
     disney = catalog["disney_plus"]
     hulu = catalog["hulu"]
 
-    returnlist = lt.newList("DOUBLE_LINKED")
+    returnlist = lt.newList()
 
     for title in lt.iterator(amazon):
         date = title["date_added"]
@@ -271,7 +272,7 @@ def TitleByTime(catalog,firstDate,LastDate):####REQ2
 
     sa.sort(returnlist, comparedate)
 
-    return FirstAndLastTitleByTime(returnlist)
+    return lt.size(returnlist),returnlist
 
 def TitleSimplify(title,service):
     simplify = {"type":title["type"],"date_added":title["date_added"],
@@ -294,19 +295,6 @@ def DateCompare(date,firstDate,LastDate):
         return True
     else:
         return False
-def FirstAndLastTitleByTime(list):
-    i = 0
-    first = []
-    last = []
-    nodo1 = list["first"]
-    nodo2 = list["last"]["prev"]["prev"]
-    while i < 3:
-        first.append(nodo1["info"])
-        last.append(nodo2["info"])
-        nodo1 = nodo1["next"]
-        nodo2 = nodo2["next"]
-        i += 1
-    return lt.size(list),first,last
 def comparedate(pelicula1, pelicula2):
 
     fecha1 = str(pelicula1["date_added"])
@@ -319,3 +307,46 @@ def comparedate(pelicula1, pelicula2):
         return True
     if fechadatetime1 == fechadatetime2:
         return False
+#################################################################
+#REQ3
+def TitlesByActor(actor,catalog):
+    TV_count = 0
+    Movie_count = 0
+    titles = lt.newList()
+    for i in lt.iterator(catalog["amazon_prime"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"amazon",TV_count,Movie_count)
+    for i in lt.iterator(catalog["netflix"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"netflix",TV_count,Movie_count)
+    for i in lt.iterator(catalog["disney_plus"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"disney_plus",TV_count,Movie_count)
+    for i in lt.iterator(catalog["hulu"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"hulu",TV_count,Movie_count)
+    titles1 = sa.sort(titles,ActorCompare)
+
+
+    return titles1,TV_count,Movie_count
+def Add_Actor_title(title,titles,stream,TV_count,Movie_count):
+    if title["type"] == "TV Show":
+        TV_count += 1
+    elif title["type"] == "Movie":
+        Movie_count += 1
+    lt.addLast(titles, {"type":title["type"],"title":title["title"],"release_year":title["release_year"],
+        "director":title["director"],"streaming_platform":stream,"duration":title["duration"],
+        "cast":title["cast"],"country":title["country"],"listed_in":title["listed_in"],"description":title["description"]})
+    return titles,TV_count,Movie_count
+def ActorCompare(title1,title2):
+    if title1["title"] < title2["title"]:
+        return True
+    elif title1["title"] == title2["title"]:
+        if title1["release_year"] < title2["release_year"]:
+            return True
+        elif title1["release_year"] == title2["release_year"]:
+            if title1["director"] < title2["director"]:
+                return True
+    else:
+        return False
+#################################################################################

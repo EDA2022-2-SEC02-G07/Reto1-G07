@@ -92,3 +92,5 @@ def loadNetflixData(catalog):
 # Funciones de consulta sobre el catálogo
 def TitleByTime (catalog,firstDate,LastDate):
     return model.TitleByTime(catalog["model"],firstDate,LastDate)
+def TitlesByActor(catalog,actor):
+    return model.TitlesByActor(actor,catalog["model"])

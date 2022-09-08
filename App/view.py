@@ -25,6 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+from prettytable import PrettyTable
 
 """
 La vista se encarga de la interacción con el usuario
@@ -67,12 +68,55 @@ def PrintStreamingData(Data):
     print("Total de Contenidos Netflix: " + str(size_Netflix))
     print("Primeros 3 contenidos de Netflix:\n", str(first_Netflix))
     print("Primeros 3 contenidos de Netflix:\n", str(last_Netflix))
-
+    
 def printReq2(control,date1,date2):########Req2
-    size,first_three,last_three = controller.TitleByTime(control,date1,date2)
-    print("Hay "+str(size),"'TV SHOW' entre "+date1,"y " + date2+".")
-    print("Los Primeros y ultimos 3 programas son:\n" + str(first_three),str(last_three))
+    size,list = controller.TitleByTime(control,date1,date2)
+    print("Hay "+ str(size)+" 'TV SHOW' entre "+date1 + " y " + date2+".")
+    print("Los Primeros y Últimos 3 programas son:")
+    tabla = PrettyTable()
+    tabla.field_names = ["type", "date_Added", "title", "duration", "release_year", "stream_service", "director", "cast"]
+    tabla._max_width = {"cast":15}
+    tabla.horizontal_char = "="
+    if size >= 6:
+        first3 = lt.subList(list, 1, 3)
+        last3 = lt.subList(list, lt.size(list)-2, 3)
+        for title in lt.iterator(first3):
+            tabla.add_row([title["type"],title["date_added"],title["title"],title["duration"],title["date_added"],
+            title["streaming_service"],title["director"],title["cast"]])
+        for title in lt.iterator(last3):
+            tabla.add_row([title["type"],title["date_added"],title["title"],title["duration"],title["date_added"],
+            title["streaming_service"],title["director"],title["cast"]])
+    else:
+        for title in lt.iterator(list):
+            tabla.add_row([title["type"],title["date_added"],title["title"],title["duration"],title["date_added"],
+            title["streaming_service"],title["director"],title["cast"]])
+    print(tabla)
+def printReq3(control,actor):
+    title, TV_count, Movie_count = controller.TitlesByActor(control,actor)
+    tabla0 = PrettyTable()
+    tabla0.field_names = ["type","count"]
+    tabla0.add_row(["Movie",Movie_count])
+    tabla0.add_row(["TV SHOW",TV_count])
+    print(tabla0)
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["type", "title", "release_year", "director", "stream_service", "duration", "cast", "country", "listed_in", "description"]
+    tabla1._max_width = {"cast":15,"description":10}
+    if lt.size(title) >= 6:
+        first3 = lt.subList(title, 0, 3)
+        last3 = lt.subList(title, lt.size(title)-2, 3)
 
+        for title in lt.iterator(first3):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+
+        for title in lt.iterator(last3):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    else:
+        for title in lt.iterator(title):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    print(tabla1)
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -107,6 +151,9 @@ while True:
        date1 = input("Ingrese la primera fecha: ")
        date2 = input("ingrese la segunda fecha: ")
        printReq2(control,date1,date2)##Req2
+    if int(inputs[0]) == 3:
+        actor = input("Ingrese el nombre del actor/a: ")
+        printReq3(control,actor)
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
