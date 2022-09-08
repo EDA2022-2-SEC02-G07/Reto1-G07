@@ -30,6 +30,8 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import selectionsort as se
+from DISClib.Algorithms.Sorting import mergesort as merg
+from DISClib.Algorithms.Sorting import quicksort as quk
 assert cf
 
 """
@@ -79,7 +81,13 @@ def lastThree(catalog,streamingService):
         tuple += (dictt,)
     return tuple
 
-def sortbydate(catalog,algorithm):
+def sortbydate(catalog,algorithm,ListType):
+    start_time = getTime()
+    movie_list = lt.newList(ListType)
+    for i in (catalog):
+        for e in lt.iterator(catalog[i]):
+            if e["type"] == "Movie":
+                lt.addLast(movie_list,e)
     start_time = getTime()
     if algorithm == 0:
         sorted_catalog = {"amazon_prime":se.sort(catalog["amazon_prime"],cmpMoviesByReleaseYear),
@@ -98,6 +106,12 @@ def sortbydate(catalog,algorithm):
             "netflix":sa.sort(catalog["netflix"],cmpMoviesByReleaseYear),
             "disney_plus":sa.sort(catalog["disney_plus"],cmpMoviesByReleaseYear),
             "hulu":sa.sort(catalog["hulu"],cmpMoviesByReleaseYear)}
+        end_time = getTime()
+    elif algorithm == 3:
+        sorted_catalog  = merg.sort(movie_list,cmpMoviesByReleaseYear)
+        end_time = getTime()
+    elif algorithm == 4:
+        sorted_catalog = quk.sort(movie_list,cmpMoviesByReleaseYear)
         end_time = getTime()
     return sorted_catalog,deltaTime(start_time,end_time)
 def cmpMoviesByReleaseYear(movie1, movie2):

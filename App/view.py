@@ -43,17 +43,19 @@ def selector():
     ints = input("Ingrese el tipo de lista:\nLINKED_LIST:0\nARRAY_LIST:1\n")
     if ints == "0":
         control = newController()
+        ints = "SINGLE_LINKED"
     elif ints == "1":
         control = newController("ARRAY_LIST")
+        ints = "ARRAY_LIST"
     else:
         control = None
     size = input("Ingrese el tamaño de la muestra:(-5pct,-10pct,-20pct,-30pct,-50pct,-80pct,-small,-large)\n")
     if size[0] != "-":
         size = None
-    algorithm = input("Ingrese el algoritmo deseado:\nSelection:0\nInsertion:1\nShell:2\n")
-    return control,size,int(algorithm)
-def sortbydate(control,algorithm):
-    sorted_catalog,deltatime = controller.sortbydate(control,algorithm)
+    algorithm = input("Ingrese el algoritmo deseado:\nSelection:0\nInsertion:1\nShell:2\nMerge:3\nQuick:4\n")
+    return control,size,int(algorithm),ints
+def sortbydate(control,algorithm,ListType):
+    sorted_catalog,deltatime = controller.sortbydate(control,algorithm,ListType)
     print("Tiempo de ejecución:",str(deltatime))
 def loadData(control,size):
     Amazon,Disney,Hulu,Netflix = controller.loadData(control,size)
@@ -149,6 +151,7 @@ def printMenu():
 control = None
 size = "-small"
 algorithm = 0
+ListType = "SINGLE_LINKED"
 """
 Menu principal
 """
@@ -170,9 +173,9 @@ while True:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
     elif int(inputs) == 10:
-        control,size,algorithm = selector()
+        control,size,algorithm,ListType = selector()
     elif int(inputs) == 11:
-        sortbydate(control,algorithm)
+        sortbydate(control,algorithm,ListType)
     elif int(inputs[0]) == 0:
         sys.exit(0)
 
