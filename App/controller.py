@@ -101,3 +101,7 @@ def loadNetflixData(catalog,size):
 def sortbydate(catalog,algorithm):
     return model.sortbydate(catalog["model"],algorithm)
 # Funciones de consulta sobre el catálogo
+def TitleByTime (catalog,firstDate,LastDate): #Requerimiento 2 
+    return model.TitleByTime(catalog["model"],firstDate,LastDate)
+def TitlesByActor(catalog,actor): #Requerimiento 3 
+    return model.TitlesByActor(actor,catalog["model"])

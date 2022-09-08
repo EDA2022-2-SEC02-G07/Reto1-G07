@@ -134,3 +134,107 @@ def deltaTime(start, end):
     """
     elapsed = float(end - start)
     return elapsed
+def TitleByTime(catalog,firstDate,LastDate): #Función Principal Requerimiento 2
+
+    amazon = catalog["amazon_prime"]
+    netflix = catalog["netflix"] 
+    disney = catalog["disney_plus"]
+    hulu = catalog["hulu"]
+
+    returnlist = lt.newList()
+
+    for title in lt.iterator(amazon):
+        date = title["date_added"]
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Amazon Prime"))
+    for title in lt.iterator(netflix):
+        date = title["date_added"]
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Netflix"))
+    for title in lt.iterator(disney):
+        date = title["date_added"]
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Disney Plus"))
+    for title in lt.iterator(hulu):
+        date = title["date_added"]
+        if date != '' and title["type"] == "TV Show":
+            if DateCompare(date,firstDate,LastDate) == True:
+                lt.addLast(returnlist,TitleSimplify(title,"Hulu"))
+
+    sa.sort(returnlist, comparedate)
+
+    return lt.size(returnlist),returnlist
+def TitleSimplify(title,service): #Función Auxiliar Requerimiento 2
+    simplify = {"type":title["type"],"date_added":title["date_added"],
+        "title":title["title"],
+        "duration":title["duration"],
+        "date_added":title["date_added"],
+        "streaming_service":service,
+        "director":title["director"],
+        "cast":title["cast"]}
+    for key in simplify:
+        if simplify[key] == '':
+            simplify[key] = "Unkown"
+    return simplify
+def DateCompare(date,firstDate,LastDate): #Función Auxiliar Requerimiento 2
+    date__ = time.strptime(date, "%Y-%m-%d")
+    firstDate_ = time.strptime(firstDate, "%Y-%m-%d")
+    LastDate_ = time.strptime(LastDate, "%Y-%m-%d")
+
+    if date__ <= LastDate_ and date__ >= firstDate_:
+        return True
+    else:
+        return False
+def comparedate(pelicula1, pelicula2): #CMP Function para requerimiento 2
+
+    fecha1 = str(pelicula1["date_added"])
+    fecha2 = str(pelicula2["date_added"])
+
+    fechadatetime1 = time.strptime(fecha1, "%Y-%m-%d")
+    fechadatetime2 = time.strptime(fecha2, "%Y-%m-%d")
+
+    if fechadatetime1 > fechadatetime2:
+        return True
+    if fechadatetime1 == fechadatetime2:
+        return False
+def TitlesByActor(actor,catalog): #Función Principal Requerimiento 3
+    TV_count = 0
+    Movie_count = 0
+    titles = lt.newList()
+    for i in lt.iterator(catalog["amazon_prime"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"amazon",TV_count,Movie_count)
+    for i in lt.iterator(catalog["netflix"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"netflix",TV_count,Movie_count)
+    for i in lt.iterator(catalog["disney_plus"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"disney_plus",TV_count,Movie_count)
+    for i in lt.iterator(catalog["hulu"]):
+        if (i["cast"] != "") and (actor in i["cast"]):
+            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"hulu",TV_count,Movie_count)
+    titles1 = sa.sort(titles,ActorCompare)
+    return titles1,TV_count,Movie_count
+def Add_Actor_title(title,titles,stream,TV_count,Movie_count): #Función Auxiliar Requerimiento 3
+    if title["type"] == "TV Show":
+        TV_count += 1
+    elif title["type"] == "Movie":
+        Movie_count += 1
+    lt.addLast(titles, {"type":title["type"],"title":title["title"],"release_year":title["release_year"],
+        "director":title["director"],"streaming_platform":stream,"duration":title["duration"],
+        "cast":title["cast"],"country":title["country"],"listed_in":title["listed_in"],"description":title["description"]})
+    return titles,TV_count,Movie_count
+def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
+    if title1["title"] < title2["title"]:
+        return True
+    elif title1["title"] == title2["title"]:
+        if title1["release_year"] < title2["release_year"]:
+            return True
+        elif title1["release_year"] == title2["release_year"]:
+            if title1["director"] < title2["director"]:
+                return True
+    else:
+        return False
