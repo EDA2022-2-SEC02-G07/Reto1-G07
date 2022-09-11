@@ -87,8 +87,12 @@ def PrintStreamingData(Data):
         table._max_width = {"title":10,"description":15,"listed_in":10}
         table.hrules = ALL
         for title in lt.iterator(stream):
-            table.add_row([title["type"],title["release_year"],title["title"],title["director"]
-            ,title["country"],title["date_added"],title["rating"],title["duration"],title["listed_in"],title["description"][0:50]])
+            title1 = title.copy()
+            for key in title1:
+                if title1[key] == "":
+                    title1[key] = "Unknown"
+            table.add_row([title1["type"],title1["release_year"],title1["title"],title1["director"]
+            ,title1["country"],title1["date_added"],title1["rating"],title1["duration"],title1["listed_in"],title1["description"][0:50]])
         print(table)
         table.clear()
 def printReq2(control,date1,date2):
@@ -141,6 +145,38 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
+def printreq8(control,N):
+    toplist,actorsize = controller.ActorsTop(control,N)
+    print("Hay " + str(actorsize)+" actores.")
+    print("Top",N,"actores con más participaciones:")
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["actor","count","top_listed_in"]
+    tabla2 = PrettyTable()
+    tabla2.field_names = ["actor","content_type"]
+    tabla2._max_width = {"content_type":30}
+    tabla3 = PrettyTable()
+    tabla3.field_names = ["actor","colaborations"]
+    tabla3._max_width = {"colaborations":120}
+    tabla1.hrules = ALL
+    tabla2.hrules = ALL
+    tabla3.hrules = ALL
+    str_actores = ""
+    for i in lt.iterator(toplist):
+        name,colaborations,stream_show_tvCount,max_genre,size = i
+        tabla1.add_row([name,size,max_genre[0]])
+        tabla2.add_row([name,stream_show_tvCount])
+        for actores in range (1, lt.size(colaborations)+1):
+            x = lt.getElement(colaborations, actores)
+            if x.strip() != "":
+                if actores == lt.size(colaborations):
+                    str_actores += x + "."
+                else:
+                    str_actores += x + ","
+        tabla3.add_row([name,str_actores])
+        str_actores = ""
+    print(tabla1)
+    print(tabla2)
+    print(tabla3) 
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -180,6 +216,9 @@ while True:
     elif int(inputs) == 4:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
+    elif int(inputs) == 9:
+        N = input("Ingrese el número N para el top: ")
+        printreq8(control,N)
     elif int(inputs) == 10:
         control,size,algorithm,ListType = selector()
     elif int(inputs) == 11:

@@ -79,10 +79,6 @@ def firstandlast3(catalog,streamingService):
         lt.addLast(list,i)
     for i in lt.iterator(last):
         lt.addLast(list,i)
-    for i in lt.iterator(list):
-        for key in i:
-            if i[key] == "":
-                i[key] = "Unknown"
     return list
 def sortbydate(catalog,algorithm,ListType):
     start_time = getTime()
@@ -212,3 +208,74 @@ def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
                 return True
     else:
         return False
+
+def ActorTop(catalog,N): #Función Principal Requerimiento 8
+    actor_dict = {}
+    top_actors = lt.newList()
+    top_N = lt.newList()
+    for stream in catalog:
+        for title in lt.iterator(catalog[stream]):
+            title["streaming_platform"] = stream
+            for cast in title["cast"].split(","):
+                cast = cast.strip()
+                if cast not in actor_dict:
+                    actor_dict[cast] = lt.newList()
+                    lt.addLast(actor_dict[cast],title)
+                else:
+                    lt.addLast(actor_dict[cast],title)
+    i = 0
+    while i < int(N):
+        max_ = None
+        name = None
+        for key in actor_dict:
+            if max_ == None:
+                name = key
+                max_ = actor_dict[key]
+            elif lt.size(actor_dict[key]) > lt.size(max_):
+                name = key
+                max_ = actor_dict[key]
+        actor_dict.pop(name)
+        lt.addLast(top_actors,{"name":name,"titles":max_})
+        i += 1
+    for i in lt.iterator(top_actors):
+        lt.addLast(top_N,TopActorPropierties(i))
+    return top_N,len(actor_dict)
+def TopActorPropierties(actor_dict): #Función Auxiliar Requerimiento 8 
+
+    titles = actor_dict["titles"]
+    colaborations = lt.newList()
+    stream_show_tvCount = {}
+    genre_count = {}
+    for i in lt.iterator(titles):
+        if i["streaming_platform"] not in stream_show_tvCount:
+            stream_show_tvCount[i["streaming_platform"]] = {"Movie":0,"TV Show":0}
+            stream_show_tvCount[i["streaming_platform"]][i["type"]] += 1
+        else:
+            stream_show_tvCount[i["streaming_platform"]][i["type"]] += 1
+        for genre in i["listed_in"].split(","):
+            if genre not in genre_count:
+                genre_count[genre] = 1
+            else:
+                genre_count[genre] += 1
+        if actor_dict["name"] != "":
+            for colleague in i["cast"].split(","):
+                colleague = colleague.strip()
+                if (colleague != actor_dict["name"].strip()) and (lt.isPresent(colaborations,colleague) == 0):
+                    lt.addLast(colaborations,colleague)
+            for colleague in i["director"].split(","):
+                colleague = colleague.strip()
+                if lt.isPresent(colaborations,colleague) == 0:
+                    lt.addLast(colaborations,colleague)
+    if actor_dict["name"] == "":
+        actor_dict["name"] = "Unknown"
+        lt.addLast(colaborations,"Unknown")
+    merg.sort(colaborations,sortAlphabet)
+    return actor_dict["name"],colaborations,stream_show_tvCount,maxKey(genre_count),lt.size(titles)
+def sortAlphabet(item1,item2): #CMP Function Requerimiento 8 
+    if item1 < item2:
+        return True
+    else:
+        return False
+def maxKey(dict): #Función Auxiliar Requerimiento 8 
+    max_ = max(dict, key=dict.get)
+    return (max_,dict[max_])
