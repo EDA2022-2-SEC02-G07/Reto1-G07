@@ -121,6 +121,7 @@ def printReq3(control,actor):
 def printreq8(control,N):
     toplist,actorsize = controller.ActorsTop(control,N)
     print("Hay " + str(actorsize)+" actores.")
+    print("Top",N,"actores con más participaciones:")
     tabla1 = PrettyTable()
     tabla1.field_names = ["actor","count","top_listed_in"]
     tabla2 = PrettyTable()
