@@ -148,51 +148,19 @@ def deltaTime(start, end):
     """
     elapsed = float(end - start)
     return elapsed
-def TitleByTime(catalog,firstDate,LastDate): #Función Principal Requerimiento 2
-
-    amazon = catalog["amazon_prime"]
-    netflix = catalog["netflix"] 
-    disney = catalog["disney_plus"]
-    hulu = catalog["hulu"]
-
+def TitleByTime(catalog,firstDate,LastDate):#Función Principal Requerimiento 2
     returnlist = lt.newList()
-
-    for title in lt.iterator(amazon):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Amazon Prime"))
-    for title in lt.iterator(netflix):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Netflix"))
-    for title in lt.iterator(disney):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Disney Plus"))
-    for title in lt.iterator(hulu):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Hulu"))
-
+    for streaming_platform in catalog:
+        for title in lt.iterator(catalog[streaming_platform]):
+            if (title["date_added"] != "") and (title["type"] == "TV Show"):
+                if DateCompare(title["date_added"],firstDate,LastDate) == True:
+                    for key in title:
+                        if  title[key] == "":
+                            title[key] = "Unkown"
+                    title["streaming_service"] = streaming_platform
+                    lt.addLast(returnlist,title)
     sa.sort(returnlist, comparedate)
-
     return lt.size(returnlist),returnlist
-def TitleSimplify(title,service): #Función Auxiliar Requerimiento 2
-    simplify = {"type":title["type"],"date_added":title["date_added"],
-        "title":title["title"],
-        "duration":title["duration"],
-        "date_added":title["date_added"],
-        "streaming_service":service,
-        "director":title["director"],
-        "cast":title["cast"]}
-    for key in simplify:
-        if simplify[key] == '':
-            simplify[key] = "Unkown"
-    return simplify
 def DateCompare(date,firstDate,LastDate): #Función Auxiliar Requerimiento 2
     date__ = time.strptime(date, "%Y-%m-%d")
     firstDate_ = time.strptime(firstDate, "%Y-%m-%d")

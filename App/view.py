@@ -25,7 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-from prettytable import PrettyTable
+from prettytable import PrettyTable,ALL
 
 """
 La vista se encarga de la interacción con el usuario
@@ -91,7 +91,8 @@ def printReq2(control,date1,date2):
     print("Los Primeros y Últimos 3 programas son:")
     tabla = PrettyTable()
     tabla.field_names = ["type", "date_Added", "title", "duration", "release_year", "stream_service", "director", "cast"]
-    tabla._max_width = {"cast":15}
+    tabla._max_width = {"cast":25}
+    tabla.hrules = ALL
     tabla.horizontal_char = "="
     if size >= 6:
         first3 = lt.subList(list, 1, 3)
