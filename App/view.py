@@ -109,7 +109,7 @@ def printReq2(control,date1,date2):
             title["streaming_service"],title["director"],title["cast"]])
     print(tabla)
 def printReq3(control,actor):
-    title, TV_count, Movie_count = controller.TitlesByActor(control,actor)
+    titles, TV_count, Movie_count = controller.TitlesByActor(control,actor)
     tabla0 = PrettyTable()
     tabla0.field_names = ["type","count"]
     tabla0.add_row(["Movie",Movie_count])
@@ -117,10 +117,11 @@ def printReq3(control,actor):
     print(tabla0)
     tabla1 = PrettyTable()
     tabla1.field_names = ["type", "title", "release_year", "director", "stream_service", "duration", "cast", "country", "listed_in", "description"]
-    tabla1._max_width = {"cast":15,"description":10}
-    if lt.size(title) >= 6:
-        first3 = lt.subList(title, 0, 3)
-        last3 = lt.subList(title, lt.size(title)-2, 3)
+    tabla1._max_width = {"cast":30,"description":10,"listed_in":15}
+    tabla1.hrules = ALL
+    if lt.size(titles) >= 6:
+        first3 = lt.subList(titles, 1, 3)
+        last3 = lt.subList(titles, lt.size(titles)-2, 3)
 
         for title in lt.iterator(first3):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
@@ -130,7 +131,7 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     else:
-        for title in lt.iterator(title):
+        for title in lt.iterator(titles):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)

@@ -186,28 +186,17 @@ def TitlesByActor(actor,catalog): #Función Principal Requerimiento 3
     TV_count = 0
     Movie_count = 0
     titles = lt.newList()
-    for i in lt.iterator(catalog["amazon_prime"]):
-        if (i["cast"] != "") and (actor in i["cast"]):
-            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"amazon",TV_count,Movie_count)
-    for i in lt.iterator(catalog["netflix"]):
-        if (i["cast"] != "") and (actor in i["cast"]):
-            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"netflix",TV_count,Movie_count)
-    for i in lt.iterator(catalog["disney_plus"]):
-        if (i["cast"] != "") and (actor in i["cast"]):
-            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"disney_plus",TV_count,Movie_count)
-    for i in lt.iterator(catalog["hulu"]):
-        if (i["cast"] != "") and (actor in i["cast"]):
-            titles,TV_count,Movie_count = Add_Actor_title(i,titles,"hulu",TV_count,Movie_count)
-    titles1 = sa.sort(titles,ActorCompare)
-    return titles1,TV_count,Movie_count
-def Add_Actor_title(title,titles,stream,TV_count,Movie_count): #Función Auxiliar Requerimiento 3
-    if title["type"] == "TV Show":
-        TV_count += 1
-    elif title["type"] == "Movie":
-        Movie_count += 1
-    lt.addLast(titles, {"type":title["type"],"title":title["title"],"release_year":title["release_year"],
-        "director":title["director"],"streaming_platform":stream,"duration":title["duration"],
-        "cast":title["cast"],"country":title["country"],"listed_in":title["listed_in"],"description":title["description"]})
+    for streaming_service in catalog:
+        for title in lt.iterator(catalog[streaming_service]):
+            if (title["cast"] != "") and (actor in title["cast"]):
+                if title["type"] == "Movie":
+                    Movie_count += 1
+                else:
+                    TV_count += 1
+                title["streaming_platform"] = streaming_service
+                title["cast"] = title["cast"].strip()
+                lt.addLast(titles,title)
+    sa.sort(titles,ActorCompare)
     return titles,TV_count,Movie_count
 def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
     if title1["title"] < title2["title"]:
