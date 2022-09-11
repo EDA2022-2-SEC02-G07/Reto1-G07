@@ -64,7 +64,7 @@ def loadAmazonPrimeData(catalog,size):
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'amazon_prime')
-    return model.StreamingSize(catalog,'amazon_prime'), model.firstThree(catalog,'amazon_prime'), model.lastThree(catalog,'amazon_prime')
+    return model.StreamingSize(catalog,'amazon_prime'), model.firstandlast3(catalog,"amazon_prime")
 
 def loadDisneyPlusData(catalog,size):
     if size == None:
@@ -74,7 +74,7 @@ def loadDisneyPlusData(catalog,size):
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'disney_plus')
-    return model.StreamingSize(catalog,'disney_plus'), model.firstThree(catalog,'disney_plus'), model.lastThree(catalog,'disney_plus')
+    return model.StreamingSize(catalog,'disney_plus'), model.firstandlast3(catalog,'disney_plus')
 
 def loadHuluData(catalog,size):
     if size == None:
@@ -84,7 +84,7 @@ def loadHuluData(catalog,size):
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'hulu')
-    return model.StreamingSize(catalog,'hulu'), model.firstThree(catalog,'hulu'), model.lastThree(catalog,'hulu')
+    return model.StreamingSize(catalog,'hulu'), model.firstandlast3(catalog,'hulu')
 
 def loadNetflixData(catalog,size):
     if size == None:
@@ -94,7 +94,7 @@ def loadNetflixData(catalog,size):
     input_file = csv.DictReader(open(contentfile, encoding='utf-8'))
     for content in input_file:
         model.addContent(catalog, content,'netflix')
-    return model.StreamingSize(catalog,'netflix'), model.firstThree(catalog,'netflix'), model.lastThree(catalog,'netflix')
+    return model.StreamingSize(catalog,'netflix'), model.firstandlast3(catalog,'netflix')
 
 
 # Funciones de ordenamiento

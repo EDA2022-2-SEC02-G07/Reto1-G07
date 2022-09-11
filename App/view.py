@@ -63,28 +63,34 @@ def loadData(control,size):
     return Amazon,Disney,Hulu,Netflix
 
 def PrintStreamingData(Data):
+    index = ("Amazon","Disney+","Hulu","Neflix")
+    i = 0
     Amazon,Disney,Hulu,Netflix= Data
-    
-    size_Amazon, first_Amazon, last_Amazon = Amazon
-    size_Disney, first_Disney, last_Disney = Disney
-    size_Hulu, first_Hulu, last_Hulu = Hulu
-    size_Netflix, first_Netflix, last_Netflix = Netflix  
-
-    print("Total de Contenidos Amazon Prime Video: " + str(size_Amazon))
-    print("Primeros 3 contenidos de Amazon:\n", str(first_Amazon))
-    print("Ultimos 3 contenidos de Amazon:\n", str(last_Amazon))
-    
-    print("Total de Contenidos Disney Plus: " + str(size_Disney))
-    print("Primeros 3 contenidos de Disney Plus:\n", str(first_Disney))
-    print("Ultimos 3 contenidos de Disney Plus:\n", str(last_Disney))
-
-    print("Total de Contenidos Hulu: " + str(size_Hulu))
-    print("Primeros 3 contenidos de Hulu:\n", str(first_Hulu))
-    print("Ultimos 3 contenidos de Hulu:\n", str(last_Hulu))
-
-    print("Total de Contenidos Netflix: " + str(size_Netflix))
-    print("Primeros 3 contenidos de Netflix:\n", str(first_Netflix))
-    print("Primeros 3 contenidos de Netflix:\n", str(last_Netflix))
+    size_Amazon, amazon_list = Amazon
+    size_Disney, disney_list = Disney
+    size_Hulu, hulu_list = Hulu
+    size_Netflix, netflix_list = Netflix  
+    table1 = PrettyTable()
+    table1.hrules = ALL
+    table1.field_names = ["service_name","count"]
+    table1.add_row(["Amazon",size_Amazon])
+    table1.add_row(["Disney",size_Disney])
+    table1.add_row(["Hulu",size_Hulu])
+    table1.add_row(["Netflix",size_Netflix])
+    print(table1)
+    table = PrettyTable()
+    for stream in (amazon_list,disney_list,hulu_list,netflix_list):
+        print("Primeros y últimos titulos de",index[i]+":")
+        i+=1
+        table.field_names = ["type","release_year","title",
+        "director","country","date_added","rating","duration","listed_in","description"]
+        table._max_width = {"title":10,"description":15,"listed_in":10}
+        table.hrules = ALL
+        for title in lt.iterator(stream):
+            table.add_row([title["type"],title["release_year"],title["title"],title["director"]
+            ,title["country"],title["date_added"],title["rating"],title["duration"],title["listed_in"],title["description"][0:50]])
+        print(table)
+        table.clear()
 def printReq2(control,date1,date2):
     size,list = controller.TitleByTime(control,date1,date2)
     print("Hay "+ str(size)+" 'TV SHOW' entre "+date1 + " y " + date2+".")

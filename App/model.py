@@ -24,6 +24,7 @@
  * Dario Correal - Version inicial
  """
 
+from calendar import c
 import time
 import config as cf
 from DISClib.ADT import list as lt
@@ -64,23 +65,25 @@ def StreamingSize(catalog,streaming_platform):
 
 def firstThree(catalog,streamingService):
     streaming_list = catalog[streamingService] 
-    sublist = lt.subList(streaming_list,0,3)
-    tuple = ()
-    for i in lt.iterator(sublist):
-        dictt = {"title":i["title"], "release_year":i["release_year"],
-        "duration":i["duration"],"listed_in":i["listed_in"]}
-        tuple += (dictt,)
-    return tuple
+    sublist = lt.subList(streaming_list,1,3)
+    return sublist
 def lastThree(catalog,streamingService):
     streaming_list = catalog[streamingService]
     sublist = lt.subList(streaming_list,(lt.size(streaming_list)-2),3)
-    tuple = ()
-    for i in lt.iterator(sublist):
-        dictt = {"title":i["title"], "release_year":i["release_year"],
-        "duration":i["duration"],"listed_in":i["listed_in"]}
-        tuple += (dictt,)
-    return tuple
-
+    return sublist
+def firstandlast3(catalog,streamingService):
+    list = lt.newList()
+    first = firstThree(catalog,streamingService)
+    last = lastThree(catalog,streamingService)
+    for i in lt.iterator(first):
+        lt.addLast(list,i)
+    for i in lt.iterator(last):
+        lt.addLast(list,i)
+    for i in lt.iterator(list):
+        for key in i:
+            if i[key] == "":
+                i[key] = "Unknown"
+    return list
 def sortbydate(catalog,algorithm,ListType):
     start_time = getTime()
     movie_list = lt.newList(ListType)
