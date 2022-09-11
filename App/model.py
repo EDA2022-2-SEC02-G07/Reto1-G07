@@ -330,41 +330,36 @@ def ActorCompare(title1,title2):
 #################################################################################
 ##Req 8
 def ActorTop(catalog,N):
-    actor_list = lt.newList()
-    actors_catalog = lt.newList()
-    top_actors_list = lt.newList()
-    for catalog_key in catalog:
-        for stream in lt.iterator(catalog[catalog_key]):
-            #if stream["cast"] != "":
-                for cast in stream["cast"].split(","):
-                    if lt.isPresent(actor_list,cast) == 0:
-                        lt.addLast(actors_catalog,AddActorTop(catalog,cast))
-                        lt.addLast(actor_list,cast)
-    merg.sort(actors_catalog,CompareActorCatalog)
-    top_actors = lt.subList(actors_catalog,1,int(N))
+    actor_dict = {}
+    top_actors = lt.newList()
+    top_N = lt.newList()
+    for stream in catalog:
+        for title in lt.iterator(catalog[stream]):
+            title["streaming_platform"] = stream
+            for cast in title["cast"].split(","):
+                cast = cast.strip()
+                if cast not in actor_dict:
+                    actor_dict[cast] = lt.newList()
+                    lt.addLast(actor_dict[cast],title)
+                else:
+                    lt.addLast(actor_dict[cast],title)
+    i = 0
+    while i < int(N):
+        max_ = None
+        name = None
+        for key in actor_dict:
+            if max_ == None:
+                name = key
+                max_ = actor_dict[key]
+            elif lt.size(actor_dict[key]) > lt.size(max_):
+                name = key
+                max_ = actor_dict[key]
+        actor_dict.pop(name)
+        lt.addLast(top_actors,{"name":name,"titles":max_})
+        i += 1
     for i in lt.iterator(top_actors):
-        lt.addLast(top_actors_list,TopActorPropierties(i))
-    return top_actors_list,lt.size(actor_list)
-def AddActorTop(catalog,actor_name):
-    actor_dict = {"name":actor_name,"titles":lt.newList()}
-    if actor_name != "":
-        for key in catalog:
-            for title in lt.iterator(catalog[key]):
-                if actor_name in title["cast"]:
-                    title["streaming_platform"] = key
-                    lt.addLast(actor_dict['titles'],title)
-    else:
-        for key in catalog:
-            for title in lt.iterator(catalog[key]):
-                if title["cast"] == "":
-                    title["streaming_platform"] = key
-                    lt.addLast(actor_dict['titles'],title)
-    return actor_dict
-def CompareActorCatalog(actordict1,actordict2):
-    if lt.size(actordict1["titles"]) > lt.size(actordict2["titles"]):
-        return True
-    else:
-        return False
+        lt.addLast(top_N,TopActorPropierties(i))
+    return top_N,len(actor_dict)
 def TopActorPropierties(actor_dict):
     titles = actor_dict["titles"]
     colaborations = lt.newList()
