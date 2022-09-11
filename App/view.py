@@ -125,6 +125,7 @@ def printreq8(control,N):
     tabla1.field_names = ["actor","count","top_listed_in"]
     tabla2 = PrettyTable()
     tabla2.field_names = ["actor","content_type"]
+    tabla2._max_width = {"content_type":30}
     tabla3 = PrettyTable()
     tabla3.field_names = ["actor","colaborations"]
     tabla3._max_width = {"colaborations":120}

@@ -335,7 +335,7 @@ def ActorTop(catalog,N):
     top_actors_list = lt.newList()
     for catalog_key in catalog:
         for stream in lt.iterator(catalog[catalog_key]):
-            if stream["cast"] != "":
+            #if stream["cast"] != "":
                 for cast in stream["cast"].split(","):
                     if lt.isPresent(actor_list,cast) == 0:
                         lt.addLast(actors_catalog,AddActorTop(catalog,cast))
@@ -347,11 +347,18 @@ def ActorTop(catalog,N):
     return top_actors_list,lt.size(actor_list)
 def AddActorTop(catalog,actor_name):
     actor_dict = {"name":actor_name,"titles":lt.newList()}
-    for key in catalog:
-        for title in lt.iterator(catalog[key]):
-            if actor_name in title["cast"]:
-                title["streaming_platform"] = key
-                lt.addLast(actor_dict['titles'],title)
+    if actor_name != "":
+        for key in catalog:
+            for title in lt.iterator(catalog[key]):
+                if actor_name in title["cast"]:
+                    title["streaming_platform"] = key
+                    lt.addLast(actor_dict['titles'],title)
+    else:
+        for key in catalog:
+            for title in lt.iterator(catalog[key]):
+                if title["cast"] == "":
+                    title["streaming_platform"] = key
+                    lt.addLast(actor_dict['titles'],title)
     return actor_dict
 def CompareActorCatalog(actordict1,actordict2):
     if lt.size(actordict1["titles"]) > lt.size(actordict2["titles"]):
@@ -374,14 +381,18 @@ def TopActorPropierties(actor_dict):
                 genre_count[genre] = 1
             else:
                 genre_count[genre] += 1
-        for colleague in i["cast"].split(","):
-            colleague = colleague.strip()
-            if (colleague != actor_dict["name"].strip()) and (lt.isPresent(colaborations,colleague) == 0):
-                lt.addLast(colaborations,colleague)
-        for colleague in i["director"].split(","):
-            colleague = colleague.strip()
-            if lt.isPresent(colaborations,colleague) == 0:
-                lt.addLast(colaborations,colleague)
+        if actor_dict["name"] != "":
+            for colleague in i["cast"].split(","):
+                colleague = colleague.strip()
+                if (colleague != actor_dict["name"].strip()) and (lt.isPresent(colaborations,colleague) == 0):
+                    lt.addLast(colaborations,colleague)
+            for colleague in i["director"].split(","):
+                colleague = colleague.strip()
+                if lt.isPresent(colaborations,colleague) == 0:
+                    lt.addLast(colaborations,colleague)
+    if actor_dict["name"] == "":
+        actor_dict["name"] = "Unknown"
+        lt.addLast(colaborations,"Unknown")
     merg.sort(colaborations,sortAlphabet)
     return actor_dict["name"],colaborations,stream_show_tvCount,maxKey(genre_count),lt.size(titles)
 def sortAlphabet(item1,item2):
