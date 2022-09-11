@@ -86,19 +86,20 @@ def PrintStreamingData(Data):
         "director","country","date_added","rating","duration","listed_in","description"]
         table._max_width = {"title":10,"description":15,"listed_in":10}
         table.hrules = ALL
-        for title in lt.iterator(stream):
-            title1 = title.copy()
-            for key in title1:
-                if title1[key] == "":
-                    title1[key] = "Unknown"
+        for title1 in lt.iterator(stream):
             table.add_row([title1["type"],title1["release_year"],title1["title"],title1["director"]
             ,title1["country"],title1["date_added"],title1["rating"],title1["duration"],title1["listed_in"],title1["description"][0:50]])
         print(table)
         table.clear()
 def printReq2(control,date1,date2):
-    size,list = controller.TitleByTime(control,date1,date2)
+    size,list1 = controller.TitleByTime(control.copy(),date1,date2)
+    list = list1.copy()
     print("Hay "+ str(size)+" 'TV SHOW' entre "+date1 + " y " + date2+".")
     print("Los Primeros y Últimos 3 programas son:")
+    #for i in lt.iterator(list):
+     #   for key in i:
+      #      if i[key] == "":
+       #         i[key] = "Unknown"
     tabla = PrettyTable()
     tabla.field_names = ["type", "date_Added", "title", "duration", "release_year", "stream_service", "director", "cast"]
     tabla._max_width = {"cast":25}

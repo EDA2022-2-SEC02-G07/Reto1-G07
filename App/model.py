@@ -24,7 +24,6 @@
  * Dario Correal - Version inicial
  """
 
-from calendar import c
 import time
 import config as cf
 from DISClib.ADT import list as lt
@@ -56,6 +55,9 @@ def newCatalog(ListType):
 
 # Funciones para agregar informacion al catalogo
 def addContent(catalog, content,streaming_platform):
+    for key in content:
+        if content[key] == "":
+            content[key] = "unknown"
     platform = catalog[streaming_platform]
     lt.addLast(platform, content)
     return catalog
@@ -151,11 +153,8 @@ def TitleByTime(catalog,firstDate,LastDate):#Función Principal Requerimiento 2
     returnlist = lt.newList()
     for streaming_platform in catalog:
         for title in lt.iterator(catalog[streaming_platform]):
-            if (title["date_added"] != "") and (title["type"] == "TV Show"):
+            if (title["date_added"] != "unknown") and (title["type"] == "TV Show"):
                 if DateCompare(title["date_added"],firstDate,LastDate) == True:
-                    for key in title:
-                        if  title[key] == "":
-                            title[key] = "Unkown"
                     title["streaming_service"] = streaming_platform
                     lt.addLast(returnlist,title)
     sa.sort(returnlist, comparedate)
@@ -257,7 +256,7 @@ def TopActorPropierties(actor_dict): #Función Auxiliar Requerimiento 8
                 genre_count[genre] = 1
             else:
                 genre_count[genre] += 1
-        if actor_dict["name"] != "":
+        if actor_dict["name"] != "unknown":
             for colleague in i["cast"].split(","):
                 colleague = colleague.strip()
                 if (colleague != actor_dict["name"].strip()) and (lt.isPresent(colaborations,colleague) == 0):
@@ -266,8 +265,7 @@ def TopActorPropierties(actor_dict): #Función Auxiliar Requerimiento 8
                 colleague = colleague.strip()
                 if lt.isPresent(colaborations,colleague) == 0:
                     lt.addLast(colaborations,colleague)
-    if actor_dict["name"] == "":
-        actor_dict["name"] = "Unknown"
+    if actor_dict["name"] == "unknown":
         lt.addLast(colaborations,"Unknown")
     merg.sort(colaborations,sortAlphabet)
     return actor_dict["name"],colaborations,stream_show_tvCount,maxKey(genre_count),lt.size(titles)
