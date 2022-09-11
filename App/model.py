@@ -27,7 +27,7 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import mergesort as sa
+from DISClib.Algorithms.Sorting import mergesort as merg
 assert cf
 import time
 """
@@ -251,7 +251,7 @@ def TitleByTime(catalog,firstDate,LastDate):####REQ2
                             title[key] == "Unkown"
                     title["streaming_service"] = streaming_platform
                     lt.addLast(returnlist,title)
-    sa.sort(returnlist, comparedate)
+    merg.sort(returnlist, comparedate)
     return lt.size(returnlist),returnlist
 
 def TitleSimplify(title,service):
@@ -305,7 +305,7 @@ def TitlesByActor(actor,catalog):
     for i in lt.iterator(catalog["hulu"]):
         if (i["cast"] != "") and (actor in i["cast"]):
             titles,TV_count,Movie_count = Add_Actor_title(i,titles,"hulu",TV_count,Movie_count)
-    titles1 = sa.sort(titles,ActorCompare)
+    titles1 = merg.sort(titles,ActorCompare)
     return titles1,TV_count,Movie_count
 def Add_Actor_title(title,titles,stream,TV_count,Movie_count):
     if title["type"] == "TV Show":
@@ -340,7 +340,7 @@ def ActorTop(catalog,N):
                     if lt.isPresent(actor_list,cast) == 0:
                         lt.addLast(actors_catalog,AddActorTop(catalog,cast))
                         lt.addLast(actor_list,cast)
-    sa.sort(actors_catalog,CompareActorCatalog)
+    merg.sort(actors_catalog,CompareActorCatalog)
     top_actors = lt.subList(actors_catalog,1,int(N))
     for i in lt.iterator(top_actors):
         lt.addLast(top_actors_list,TopActorPropierties(i))
@@ -382,7 +382,7 @@ def TopActorPropierties(actor_dict):
             colleague = colleague.strip()
             if lt.isPresent(colaborations,colleague) == 0:
                 lt.addLast(colaborations,colleague)
-    sa.sort(colaborations,sortAlphabet)
+    merg.sort(colaborations,sortAlphabet)
     return actor_dict["name"],colaborations,stream_show_tvCount,maxKey(genre_count),lt.size(titles)
 def sortAlphabet(item1,item2):
     if item1 < item2:
