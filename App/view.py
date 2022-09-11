@@ -75,7 +75,7 @@ def printReq2(control,date1,date2):########Req2
     print("Los Primeros y Últimos 3 programas son:")
     tabla = PrettyTable()
     tabla.field_names = ["type", "date_Added", "title", "duration", "release_year", "stream_service", "director", "cast"]
-    tabla._max_width = {"cast":15}
+    tabla._max_width = {"cast":25}
     tabla.horizontal_char = "="
     if size >= 6:
         first3 = lt.subList(list, 1, 3)
@@ -181,11 +181,11 @@ while True:
         print("Cargando información de los archivos ....")
         Data = loadData(control)
         PrintStreamingData(Data)
-    if int(inputs[0]) == 2:
+    if int(inputs[0]) == 3:
        date1 = input("Ingrese la primera fecha: ")
        date2 = input("ingrese la segunda fecha: ")
        printReq2(control,date1,date2)##Req2
-    if int(inputs[0]) == 3:
+    if int(inputs[0]) == 4:
         actor = input("Ingrese el nombre del actor/a: ")
         printReq3(control,actor)
     if int(inputs[0]) == 9:

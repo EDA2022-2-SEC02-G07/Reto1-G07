@@ -241,37 +241,17 @@ def lastThreeNetflix(catalog):
     return lastThree
 #######################################################
 def TitleByTime(catalog,firstDate,LastDate):####REQ2
-
-    amazon = catalog["amazon_prime"]
-    netflix = catalog["netflix"] 
-    disney = catalog["disney_plus"]
-    hulu = catalog["hulu"]
-
     returnlist = lt.newList()
-
-    for title in lt.iterator(amazon):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Amazon Prime"))
-    for title in lt.iterator(netflix):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Netflix"))
-    for title in lt.iterator(disney):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Disney Plus"))
-    for title in lt.iterator(hulu):
-        date = title["date_added"]
-        if date != '' and title["type"] == "TV Show":
-            if DateCompare(date,firstDate,LastDate) == True:
-                lt.addLast(returnlist,TitleSimplify(title,"Hulu"))
-
+    for streaming_platform in catalog:
+        for title in lt.iterator(catalog[streaming_platform]):
+            if (title["date_added"] != "") and (title["type"] == "TV Show"):
+                if DateCompare(title["date_added"],firstDate,LastDate) == True:
+                    for key in title:
+                        if key == "":
+                            title[key] == "Unkown"
+                    title["streaming_service"] = streaming_platform
+                    lt.addLast(returnlist,title)
     sa.sort(returnlist, comparedate)
-
     return lt.size(returnlist),returnlist
 
 def TitleSimplify(title,service):
