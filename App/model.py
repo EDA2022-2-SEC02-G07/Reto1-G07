@@ -326,8 +326,6 @@ def TitlesByActor(actor,catalog):
         if (i["cast"] != "") and (actor in i["cast"]):
             titles,TV_count,Movie_count = Add_Actor_title(i,titles,"hulu",TV_count,Movie_count)
     titles1 = sa.sort(titles,ActorCompare)
-
-
     return titles1,TV_count,Movie_count
 def Add_Actor_title(title,titles,stream,TV_count,Movie_count):
     if title["type"] == "TV Show":
@@ -350,3 +348,67 @@ def ActorCompare(title1,title2):
     else:
         return False
 #################################################################################
+##Req 8
+def ActorTop(catalog,N):
+    actor_list = lt.newList()
+    actors_catalog = lt.newList()
+    top_actors_list = lt.newList()
+    for catalog_key in catalog:
+        for stream in lt.iterator(catalog[catalog_key]):
+            if stream["cast"] != "":
+                for cast in stream["cast"].split(","):
+                    if lt.isPresent(actor_list,cast) == 0:
+                        lt.addLast(actors_catalog,AddActorTop(catalog,cast))
+                        lt.addLast(actor_list,cast)
+    sa.sort(actors_catalog,CompareActorCatalog)
+    top_actors = lt.subList(actors_catalog,1,int(N))
+    for i in lt.iterator(top_actors):
+        lt.addLast(top_actors_list,TopActorPropierties(i))
+    return top_actors_list,lt.size(actor_list)
+def AddActorTop(catalog,actor_name):
+    actor_dict = {"name":actor_name,"titles":lt.newList()}
+    for key in catalog:
+        for title in lt.iterator(catalog[key]):
+            if actor_name in title["cast"]:
+                title["streaming_platform"] = key
+                lt.addLast(actor_dict['titles'],title)
+    return actor_dict
+def CompareActorCatalog(actordict1,actordict2):
+    if lt.size(actordict1["titles"]) > lt.size(actordict2["titles"]):
+        return True
+    else:
+        return False
+def TopActorPropierties(actor_dict):
+    titles = actor_dict["titles"]
+    colaborations = lt.newList()
+    stream_show_tvCount = {}
+    genre_count = {}
+    for i in lt.iterator(titles):
+        if i["streaming_platform"] not in stream_show_tvCount:
+            stream_show_tvCount[i["streaming_platform"]] = {"Movie":0,"TV Show":0}
+            stream_show_tvCount[i["streaming_platform"]][i["type"]] += 1
+        else:
+            stream_show_tvCount[i["streaming_platform"]][i["type"]] += 1
+        for genre in i["listed_in"].split(","):
+            if genre not in genre_count:
+                genre_count[genre] = 1
+            else:
+                genre_count[genre] += 1
+        for colleague in i["cast"].split(","):
+            colleague = colleague.strip()
+            if (colleague != actor_dict["name"].strip()) and (lt.isPresent(colaborations,colleague) == 0):
+                lt.addLast(colaborations,colleague)
+        for colleague in i["director"].split(","):
+            colleague = colleague.strip()
+            if lt.isPresent(colaborations,colleague) == 0:
+                lt.addLast(colaborations,colleague)
+    sa.sort(colaborations,sortAlphabet)
+    return actor_dict["name"],colaborations,stream_show_tvCount,maxKey(genre_count),lt.size(titles)
+def sortAlphabet(item1,item2):
+    if item1 < item2:
+        return True
+    else:
+        return False
+def maxKey(dict):
+    max_ = max(dict, key=dict.get)
+    return (max_,dict[max_])

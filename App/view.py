@@ -25,7 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-from prettytable import PrettyTable
+from prettytable import PrettyTable, ALL
 
 """
 La vista se encarga de la interacción con el usuario
@@ -117,6 +117,40 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
+    ############################################################################
+def printreq8(control,N):
+    toplist,actorsize = controller.ActorsTop(control,N)
+    print("Hay " + str(actorsize)+" actores.")
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["actor","count","top_listed_in"]
+    tabla2 = PrettyTable()
+    tabla2.field_names = ["actor","content_type"]
+    tabla3 = PrettyTable()
+    tabla3.field_names = ["actor","colaborations"]
+    tabla3._max_width = {"colaborations":120}
+    tabla1.hrules = ALL
+    tabla2.hrules = ALL
+    tabla3.hrules = ALL
+    str_actores = ""
+    for i in lt.iterator(toplist):
+        name,colaborations,stream_show_tvCount,max_genre,size = i
+        tabla1.add_row([name,size,max_genre[0]])
+        tabla2.add_row([name,stream_show_tvCount])
+        for actores in range (1, lt.size(colaborations)+1):
+            x = lt.getElement(colaborations, actores)
+            if x.strip() != "":
+                if actores == lt.size(colaborations):
+                    str_actores += x + "."
+                else:
+                    str_actores += x + ","
+        tabla3.add_row([name,str_actores])
+        str_actores = ""
+
+
+    print(tabla1)
+    print(tabla2)
+    print(tabla3)
+####################################################################################    
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -154,6 +188,9 @@ while True:
     if int(inputs[0]) == 3:
         actor = input("Ingrese el nombre del actor/a: ")
         printReq3(control,actor)
+    if int(inputs[0]) == 9:
+        N = input("Ingrese el número del Top: ")
+        printreq8(control,N)
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:

@@ -94,3 +94,5 @@ def TitleByTime (catalog,firstDate,LastDate):
     return model.TitleByTime(catalog["model"],firstDate,LastDate)
 def TitlesByActor(catalog,actor):
     return model.TitlesByActor(actor,catalog["model"])
+def ActorsTop(catalog,N):
+    return model.ActorTop(catalog["model"],N)
