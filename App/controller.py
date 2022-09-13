@@ -105,5 +105,7 @@ def TitleByTime (catalog,firstDate,LastDate): #Requerimiento 2
     return model.TitleByTime(catalog["model"],firstDate,LastDate)
 def TitlesByActor(catalog,actor): #Requerimiento 3 
     return model.TitlesByActor(actor,catalog["model"])
+def GenresTop(catalog,TopN): #Requerimiento 7
+    return model.topGenres(catalog["model"],TopN)
 def ActorsTop(catalog,N): #Requerimiento 8
     return model.ActorTop(catalog["model"],N) 

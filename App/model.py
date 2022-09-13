@@ -208,6 +208,57 @@ def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
     else:
         return False
 
+
+#Req 7
+
+def topGenres(catalog,TopN): # Principal Top Generos
+    genres_dict = {}
+    top_genres = lt.newList()
+    top_Num = lt.newList()
+    for streaming in catalog:
+        for title in lt.iterator(catalog[streaming]):
+            title["streaming_platform"] = streaming
+            for genre in title["listed_in"].split(","):
+                genre = genre.strip()
+                if genre not in genres_dict:
+                    genres_dict[genre] = lt.newList()
+                    lt.addLast(genres_dict[genre],title)
+                else:
+                    lt.addLast(genres_dict[genre],title)
+    i = 0
+    while i < int(TopN):
+        max_ = None
+        genreName = None
+        for key in genres_dict:
+            if max_ == None:
+                genreName = key
+                max_ = genres_dict[key]
+            elif lt.size(genres_dict[key]) > lt.size(max_):
+                genreName = key
+                max_ = genres_dict[key]
+        genres_dict.pop(genreName)
+        lt.addLast(top_genres,{"listed_in": genreName,"titles": max_})
+        i += 1
+    for elems in lt.iterator(top_genres):
+        lt.addLast(top_Num,topGenresInPlatform(elems))
+    return top_Num, len(genres_dict)
+
+def topGenresInPlatform(dict_): # Auxiliar Top Generos
+    type_counter = {}
+    streaming_counter = {}
+    for title in lt.iterator(dict_['titles']):
+        if title["type"] not in type_counter:
+            type_counter[title["type"]] = 1
+        else:
+            type_counter[title["type"]] += 1
+        if title['streaming_platform'] not in streaming_counter:
+            streaming_counter[title['streaming_platform']] = 1
+        else:
+            streaming_counter[title['streaming_platform']] += 1
+
+    
+    return dict_['listed_in'],type_counter,streaming_counter,lt.size(dict_['titles'])
+
 def ActorTop(catalog,N): #Función Principal Requerimiento 8
     actor_dict = {}
     top_actors = lt.newList()

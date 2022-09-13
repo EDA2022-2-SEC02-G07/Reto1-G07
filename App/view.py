@@ -84,7 +84,7 @@ def PrintStreamingData(Data):
         i+=1
         table.field_names = ["type","release_year","title",
         "director","country","date_added","rating","duration","listed_in","description"]
-        table._max_width = {"title":10,"description":15,"listed_in":10}
+        table._max_width = {"title":8,"description":10,"listed_in":6,"director":10}
         table.hrules = ALL
         for title1 in lt.iterator(stream):
             table.add_row([title1["type"],title1["release_year"],title1["title"],title1["director"]
@@ -146,6 +146,25 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
+
+def printreq7(control, TopN):
+    top_num,size = controller.GenresTop(control, TopN)
+    print('Hay', str(size), 'generos.')
+    tabla1 = PrettyTable()
+    tabla1.field_names = ['listed_in', 'count']
+    tabla2 = PrettyTable()
+    tabla2.field_names = ['rank','listed_in', 'count', 'type', 'stream_service']
+    tabla1.hrules = ALL
+    tabla2.hrules = ALL
+    rank = 1
+    for i in lt.iterator(top_num):
+        genre,type_counter,streaming_counter,genreSize = i
+        tabla1.add_row([genre,genreSize])
+        tabla2.add_row([rank,genre,genreSize,type_counter,streaming_counter])
+        rank += 1
+    print(tabla1)
+    print(tabla2)
+
 def printreq8(control,N):
     toplist,actorsize = controller.ActorsTop(control,N)
     print("Hay " + str(actorsize)+" actores.")
@@ -217,6 +236,9 @@ while True:
     elif int(inputs) == 4:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
+    elif int(inputs) == 8:
+        N = input("Ingrese el número N para el top: ")
+        printreq7(control,N)
     elif int(inputs) == 9:
         N = input("Ingrese el número N para el top: ")
         printreq8(control,N)
