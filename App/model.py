@@ -208,7 +208,45 @@ def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
     else:
         return False
 
-
+def TitlesByDirector(catalog,director):
+    type_count = {}
+    streaming_count = {}
+    listed_in_count = {}
+    directorTitles = lt.newList()
+    for streaming in catalog:
+        for title in lt.iterator(catalog[streaming]):
+            for i_dic in title["director"].split(","):
+                i_dic = i_dic.strip()
+                if i_dic == director:
+                    if title["type"] not in type_count:
+                        type_count[title["type"]] = 1
+                    else:
+                        type_count[title["type"]] += 1
+                    title["streaming_platform"] = streaming
+                    if title["streaming_platform"] not in streaming_count:
+                        streaming_count[title["streaming_platform"]] = {"Movie":0,"TV Show":0}
+                        streaming_count[title["streaming_platform"]][title["type"]] += 1
+                    else:
+                        streaming_count[title["streaming_platform"]][title["type"]] += 1
+                    for genre in title["listed_in"].split(","):
+                        genre = genre.strip()
+                        if genre not in listed_in_count:
+                            listed_in_count[genre] = 1
+                        else:
+                            listed_in_count[genre] += 1
+                    lt.addLast(directorTitles,title)
+    merg.sort(directorTitles,cmpTitlesByDirector)
+    return directorTitles,type_count,streaming_count,listed_in_count
+def cmpTitlesByDirector(title1,title2):
+    if title1["release_year"] < title2["release_year"]:
+        return True
+    elif title1["release_year"] == title2["release_year"]:
+        if title1["title"] < title2["title"]:
+            return True
+        elif title1["title"] == title2["title"]:
+            title1["duration"] < title2["duration"]
+    else:
+        return False
 #Req 7
 
 def topGenres(catalog,TopN): # Principal Top Generos

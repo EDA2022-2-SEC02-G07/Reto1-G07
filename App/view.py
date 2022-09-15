@@ -146,7 +146,51 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
-
+def printreq6(control,director):
+    directorTitles,type_count,streaming_count,listed_in_count = controller.TitlesByDirector(control,director)
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["type","count"]
+    for i in type_count:
+        tabla1.add_row([i,type_count[i]])
+    tabla2 = PrettyTable()
+    tabla2.field_names = ["service_name","Movie","TV Show"]
+    for i in streaming_count:
+        tabla2.add_row([i,streaming_count[i]["Movie"],streaming_count[i]["TV Show"]])
+    tabla3 = PrettyTable()
+    tabla3.field_names = ["listed_in","count"]
+    if len(listed_in_count) <= 6:
+        for i in listed_in_count:
+            tabla3.add_row([i,listed_in_count[i]])
+    else:
+        i = 1
+        for key in listed_in_count:
+            if i <= 3 or (i >= len(listed_in_count)-2 and i <= len(listed_in_count)):
+                tabla3.add_row([key,listed_in_count[key]])
+            i += 1
+    tabla4 = PrettyTable()
+    tabla4.field_names = ["title","release_year","director","stream_name","type","duration","cast", "country","rating","listed_in","description"]
+    tabla4._max_width = {"title":12,"cast":20,"description":13,"listed_in":15,"country":12}
+    if lt.size(directorTitles) <= 6:
+        for i in lt.iterator(directorTitles):
+            tabla4.add_row([i["title"],i["release_year"],i["director"],i["streaming_platform"],i["type"],
+            i["duration"],i["cast"],i["country"],i["rating"],i["listed_in"],i["description"][0:100]+"(...)"])
+    else:
+        first = lt.subList(directorTitles,1,3)
+        last = lt.subList(directorTitles,lt.size(directorTitles)-2,3)
+        for i in lt.iterator(first):
+            tabla4.add_row([i["title"],i["release_year"],i["director"],i["streaming_platform"],i["type"],
+            i["duration"],i["cast"],i["country"],i["rating"],i["listed_in"],i["description"][0:100]+"(...)"])
+        for i in lt.iterator(last):
+            tabla4.add_row([i["title"],i["release_year"],i["director"],i["streaming_platform"],i["type"],
+            i["duration"],i["cast"],i["country"],i["rating"],i["listed_in"],i["description"][0:100]+"(...)"])
+    tabla1.hrules = ALL
+    tabla2.hrules = ALL
+    tabla3.hrules = ALL
+    tabla4.hrules = ALL
+    print(tabla1)
+    print(tabla2)
+    print(tabla3)
+    print(tabla4)
 def printreq7(control, TopN):
     top_num,size = controller.GenresTop(control, TopN)
     print('Hay', str(size), 'generos.')
@@ -236,6 +280,9 @@ while True:
     elif int(inputs) == 4:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
+    elif int(inputs) == 7:
+        director = input("Ingrese el nombre del director: ")
+        printreq6(control,director)
     elif int(inputs) == 8:
         N = input("Ingrese el número N para el top: ")
         printreq7(control,N)
