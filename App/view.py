@@ -151,7 +151,7 @@ def printReq3(control,actor):
     print(tabla1)
 
 def printreq5(control,country):
-    movies,TV_Shows,first_three,last_three = controller.TitlesByCountry(control,country)
+    movies,TV_Shows,first_three,last_three = controller.Title1sByCountry(control,country)
     tabla0 = PrettyTable()
     tabla0.field_names = ["type","count"]
     tabla0.add_row(["Movie",movies])
@@ -307,6 +307,9 @@ while True:
     elif int(inputs) == 4:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
+    elif int(inputs) == 6:
+        pais = input("Ingrese el nombre del pais: ")
+        printreq5(control,pais)
     elif int(inputs) == 7:
         director = input("Ingrese el nombre del director: ")
         printreq6(control,director)
