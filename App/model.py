@@ -150,7 +150,7 @@ def deltaTime(start, end):
     elapsed = float(end - start)
     return elapsed
 
-def TitlesByYear(catalog,first_year,last_year):
+def TitlesByYear(catalog,first_year,last_year): #Función Principal Requerimiento 1
     titlesList = lt.newList()
     for stream in catalog:
         for title in lt.iterator(catalog[stream]):
@@ -160,7 +160,7 @@ def TitlesByYear(catalog,first_year,last_year):
                     lt.addLast(titlesList,title)
     merg.sort(titlesList,cmpyear)
     return titlesList
-def cmpyear(title1,title2):
+def cmpyear(title1,title2): #Función Auxiliar Requerimiento 1
     if title1["release_year"] < title2["release_year"]:
         return True
     elif title1["release_year"] == title2["release_year"]:
