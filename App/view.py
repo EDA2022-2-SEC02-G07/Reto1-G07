@@ -151,22 +151,31 @@ def printReq3(control,actor):
     print(tabla1)
 
 def printreq5(control,country):
-    movies,TV_Shows,first_three,last_three = controller.Title1sByCountry(control,country)
+    movies,TV_Shows,country_catalog = controller.TitlesByCountry(control,country)
     tabla0 = PrettyTable()
     tabla0.field_names = ["type","count"]
     tabla0.add_row(["Movie",movies])
     tabla0.add_row(["TV SHOW",TV_Shows])
-    print(tabla0)
     tabla1 = PrettyTable()
     tabla1.field_names = ["title", "release_year", "director", "stream_service", "duration", "cast", "country", "listed_in", "description"]
-    tabla1._max_width = {"cast":30,"description":10,"listed_in":15}
+    tabla1._max_width = {"title":10,"release_year":4,"stream_service":5,"cast":12,"country":61,"description":10,"listed_in":15}
     tabla1.hrules = ALL
-    for title in lt.iterator(first_three):
-            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
-                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
-    for title in lt.iterator(last_three):
-            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
-                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    
+    if lt.size(country_catalog) >= 6:
+        first_three = lt.subList(country_catalog,1,3)
+        last_three = lt.subList(country_catalog,(lt.size(country_catalog)-2),3)
+
+        for title in lt.iterator(first_three):
+                tabla1.add_row([title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                    title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+        for title in lt.iterator(last_three):
+                tabla1.add_row([title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                    title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    else:
+        for title in lt.iterator(country_catalog):
+                tabla1.add_row([title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                    title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+  
     tabla0.hrules = ALL
     tabla1.hrules = ALL
     print(tabla0)

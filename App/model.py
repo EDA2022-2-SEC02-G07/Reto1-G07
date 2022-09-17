@@ -264,18 +264,13 @@ def producedAt(catalog,country): #Principal req 5
                 on_country = on_country.strip()
                 if country in on_country:
                     lt.addLast(country_catalog, title)
-                    if country['type'] == 'Movie':
+                    if title['type'] == 'Movie':
                         movies += 1
                     else:
                         TV_Shows += 1
-    first_three = lt.subList(country_catalog,1,3)
-    last_three = lt.subList(country_catalog,(lt.size(country_catalog)-2),3)
-    
-    firstandlast3 = countrySortFirstandLastThree(first_three,last_three)
-    ins.sort(first_three,cmpTitlesByDirector)
-    ins.sort(last_three,cmpTitlesByDirector)
+    merg.sort(country_catalog,cmpTitlesByDirector)
 
-    return movies,TV_Shows,first_three,last_three
+    return movies,TV_Shows,country_catalog
 
 def countrySortFirstandLastThree(title1,title2): # Auxiliar req 5
     if title1["release_year"] < title2["release_year"]:
