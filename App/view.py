@@ -92,8 +92,25 @@ def PrintStreamingData(Data):
         print(table)
         table.clear()
 
-
-
+def printReq1(control,first_year,last_year):
+    titles_list = controller.TitlesByYear(control,first_year,last_year)
+    print("Hay "+ str(lt.size(titles_list)),"películas entre los años",first_year,"y",last_year,".")
+    tabla = PrettyTable()
+    tabla.hrules = ALL
+    tabla._max_width = {"cast":12,"title":15}
+    tabla.field_names = ["type","release_year","title","duration","stream_service","director","cast"]
+    if lt.size(titles_list) >= 6:
+        print("Primeras y últimas 3 películas:")
+        first = lt.subList(titles_list,1,3)
+        last = lt.subList(titles_list,lt.size(titles_list)-2,3)
+        for i in lt.iterator(first):
+            tabla.add_row([i["type"],i["release_year"],i["title"],i["duration"],i["streaming_service"],i["director"],i["cast"]])
+        for i in lt.iterator(last):
+            tabla.add_row([i["type"],i["release_year"],i["title"],i["duration"],i["streaming_service"],i["director"],i["cast"]])
+    else:
+        for i in lt.iterator(titles_list):
+            tabla.add_row([i["type"],i["release_year"],i["title"],i["duration"],i["streaming_service"],i["director"],i["cast"]])
+    print(tabla)
 def printReq2(control,date1,date2):
     size,list1 = controller.TitleByTime(control.copy(),date1,date2)
     list = list1.copy()
@@ -309,6 +326,10 @@ while True:
         print("Cargando información de los archivos ....")
         Data = loadData(control,size)
         PrintStreamingData(Data)
+    elif int(inputs) == 2:
+        f = input("Ingrese el primer año: ")
+        l = input("Ingrese el último año: ")
+        printReq1(control,f,l)
     elif int(inputs) == 3:
        date1 = input("Ingrese la primera fecha: ")
        date2 = input("ingrese la segunda fecha: ")
