@@ -247,6 +247,37 @@ def cmpTitlesByDirector(title1,title2):
             title1["duration"] < title2["duration"]
     else:
         return False
+
+#Req 5
+def producedAt(catalog,country): #Principal req 5
+    movies = 0
+    TV_Shows = 0
+
+    country_catalog = lt.newList()
+    for streaming in catalog:
+        for title in lt.iterator(catalog[streaming]):
+            title["streaming_platform"] = streaming
+            for on_country in title["country"].split(","):
+                on_country = on_country.strip()
+                if country in on_country:
+                    lt.addLast(country_catalog, title)
+                    if country['type'] == 'Movie':
+                        movies += 1
+                    else:
+                        TV_Shows += 1
+    
+    firstandlast3 = countryFirstandLastThree(country_catalog)
+
+    return movies,TV_Shows,firstandlast3
+
+
+def countryFirstandLastThree(country_catalog): # Auxiliar req 5
+    first_three = lt.subList(country_catalog,1,3)
+    last_three = lt.subList(country_catalog,(lt.size(country_catalog)-2),3)
+
+    return first_three, last_three
+
+
 #Req 7
 
 def topGenres(catalog,TopN): # Principal Top Generos
