@@ -91,6 +91,9 @@ def PrintStreamingData(Data):
             ,title1["country"],title1["date_added"],title1["rating"],title1["duration"],title1["listed_in"],title1["description"][0:50]])
         print(table)
         table.clear()
+
+
+
 def printReq2(control,date1,date2):
     size,list1 = controller.TitleByTime(control.copy(),date1,date2)
     list = list1.copy()
@@ -146,6 +149,30 @@ def printReq3(control,actor):
             tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
+
+def printreq5(control,country):
+    movies,TV_Shows,first_three,last_three = controller.TitlesByCountry(control,country)
+    tabla0 = PrettyTable()
+    tabla0.field_names = ["type","count"]
+    tabla0.add_row(["Movie",movies])
+    tabla0.add_row(["TV SHOW",TV_Shows])
+    print(tabla0)
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["title", "release_year", "director", "stream_service", "duration", "cast", "country", "listed_in", "description"]
+    tabla1._max_width = {"cast":30,"description":10,"listed_in":15}
+    tabla1.hrules = ALL
+    for title in lt.iterator(first_three):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    for title in lt.iterator(last_three):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    tabla0.hrules = ALL
+    tabla1.hrules = ALL
+    print(tabla0)
+    print(tabla1)
+
+
 def printreq6(control,director):
     directorTitles,type_count,streaming_count,listed_in_count = controller.TitlesByDirector(control,director)
     tabla1 = PrettyTable()
