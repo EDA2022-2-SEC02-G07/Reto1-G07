@@ -149,6 +149,9 @@ def deltaTime(start, end):
     """
     elapsed = float(end - start)
     return elapsed
+
+
+
 def TitleByTime(catalog,firstDate,LastDate):#Función Principal Requerimiento 2
     returnlist = lt.newList()
     for streaming_platform in catalog:
@@ -265,18 +268,26 @@ def producedAt(catalog,country): #Principal req 5
                         movies += 1
                     else:
                         TV_Shows += 1
-    
-    firstandlast3 = countryFirstandLastThree(country_catalog)
-
-    return movies,TV_Shows,firstandlast3
-
-
-def countryFirstandLastThree(country_catalog): # Auxiliar req 5
     first_three = lt.subList(country_catalog,1,3)
     last_three = lt.subList(country_catalog,(lt.size(country_catalog)-2),3)
+    
+    firstandlast3 = countrySortFirstandLastThree(first_three,last_three)
+    ins.sort(first_three,cmpTitlesByDirector)
+    ins.sort(last_three,cmpTitlesByDirector)
 
-    return first_three, last_three
+    return movies,TV_Shows,first_three,last_three
 
+def countrySortFirstandLastThree(title1,title2): # Auxiliar req 5
+    if title1["release_year"] < title2["release_year"]:
+        return True
+    elif title1["release_year"] == title2["release_year"]:
+        if title1["title"] < title2["title"]:
+            return True
+        elif title1["title"] == title2["title"]:
+            title1["director"] < title2["director"]
+    else:
+        return False
+    
 
 #Req 7
 
