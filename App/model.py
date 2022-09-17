@@ -267,7 +267,7 @@ def producedAt(catalog,country): #Principal req 5
                         TV_Shows += 1
     
     firstandlast3 = countryFirstandLastThree(country_catalog)
-    merg.sort(firstandlast3,cmpCountry)
+
     return movies,TV_Shows,firstandlast3
 
 
@@ -276,17 +276,6 @@ def countryFirstandLastThree(country_catalog): # Auxiliar req 5
     last_three = lt.subList(country_catalog,(lt.size(country_catalog)-2),3)
 
     return first_three, last_three
-def cmpCountry(title1,title2): #CMP Function req 5
-    if title1["title"] < title2["title"]:
-        return True
-    elif  title1["title"] == title2["title"]:
-        if (title1["release_year"]) < (title2["release_year"]):
-            return True
-        elif (title1["release_year"]) == (title2["release_year"]):
-            if title1["director"] < title2["director"]:
-                return True
-    else:
-        return False
 
 
 #Req 7
