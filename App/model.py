@@ -149,7 +149,41 @@ def deltaTime(start, end):
     """
     elapsed = float(end - start)
     return elapsed
-
+def ReqsTimeCounts(catalog):
+    times = lt.newList()
+    time1 = getTime()
+    TitlesByYear(catalog,"1920","1999")#req1
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    TitleByTime(catalog,"2018-01-07","2020-12-31")#req2
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    TitlesByActor("Sissy Spacek",catalog)#req3
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    #re4(catalog,"Fantasy")#req4
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    producedAt(catalog,"Colombia")#req5
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    TitlesByDirector(catalog,"John Hughes")#req6
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    topGenres(catalog,"7")#req7
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    time1 = getTime()
+    ActorTop(catalog,"7")#req8
+    time2 = getTime()
+    lt.addLast(times,round(deltaTime(time1,time2),5))
+    return times
 def TitlesByYear(catalog,first_year,last_year): #Función Principal Requerimiento 1
     titlesList = lt.newList()
     for stream in catalog:
@@ -176,7 +210,7 @@ def TitleByTime(catalog,firstDate,LastDate):#Función Principal Requerimiento 2
                 if DateCompare(title["date_added"],firstDate,LastDate) == True:
                     title["streaming_service"] = streaming_platform
                     lt.addLast(returnlist,title)
-    sa.sort(returnlist, comparedate)
+    merg.sort(returnlist, comparedate)
     return lt.size(returnlist),returnlist
 def DateCompare(date,firstDate,LastDate): #Función Auxiliar Requerimiento 2
     date__ = time.strptime(date, "%Y-%m-%d")
@@ -213,7 +247,7 @@ def TitlesByActor(actor,catalog): #Función Principal Requerimiento 3
                 title["streaming_platform"] = streaming_service
                 title["cast"] = title["cast"].strip()
                 lt.addLast(titles,title)
-    sa.sort(titles,ActorCompare)
+    merg.sort(titles,ActorCompare)
     return titles,TV_count,Movie_count
 def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
     if title1["title"] < title2["title"]:

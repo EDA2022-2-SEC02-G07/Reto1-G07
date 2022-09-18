@@ -294,6 +294,12 @@ def printreq8(control,N):
     print(tabla1)
     print(tabla2)
     print(tabla3) 
+def printTimes(control):
+    list = controller.ReqsTimeCounts(control)
+    a = 1
+    for i in lt.iterator(list):
+        print("Tiempo de requerimiento",str(a)+":",str(i))
+        a += 1
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -307,6 +313,7 @@ def printMenu():
     print("9-  Listar el top de los actores con más participaciones en contenido")
     print("10- Definir lista,tamaño y algoritmo")
     print("11- Ordenar Listas por año de lanzamiento.")
+    print("12-Mostrar Tiempos de Ejecución")
     print("0- Salir")
 
 control = None
@@ -353,6 +360,8 @@ while True:
         control,size,algorithm,ListType = selector()
     elif int(inputs) == 11:
         sortbydate(control,algorithm,ListType)
+    elif int(inputs) == 12:
+        printTimes(control)
     elif int(inputs[0]) == 0:
         sys.exit(0)
 
