@@ -101,6 +101,8 @@ def loadNetflixData(catalog,size):
 def sortbydate(catalog,algorithm,ListType):
     return model.sortbydate(catalog["model"],algorithm,ListType)
 # Funciones de consulta sobre el catálogo
+def ReqsTimeCounts(catalog):
+    return model.ReqsTimeCounts(catalog["model"])
 def TitlesByYear(catalog,first_year,last_year): #Requerimiento 1
     return model.TitlesByYear(catalog["model"],first_year,last_year)
 def TitleByTime (catalog,firstDate,LastDate): #Requerimiento 2 
