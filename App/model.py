@@ -308,11 +308,11 @@ def producedAt(catalog,country): #Principal req 5
                         movies += 1
                     else:
                         TV_Shows += 1
-    merg.sort(country_catalog,cmpTitlesByDirector)
+    merg.sort(country_catalog,cmpCountry)
 
     return movies,TV_Shows,country_catalog
 
-def countrySortFirstandLastThree(title1,title2): # Auxiliar req 5
+def cmpCountry(title1,title2): # Auxiliar req 5
     if title1["release_year"] < title2["release_year"]:
         return True
     elif title1["release_year"] == title2["release_year"]:
