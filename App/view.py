@@ -167,6 +167,34 @@ def printReq3(control,actor):
                 title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
     print(tabla1)
 
+def printreq4(control,generos):
+    titles, TV_count, Movie_count = controller.TitlesByGenres(control,generos)
+    tabla0 = PrettyTable()
+    tabla0.field_names = ["type","count"]
+    tabla0.add_row(["Movie",Movie_count])
+    tabla0.add_row(["TV SHOW",TV_count])
+    print(tabla0)
+    tabla1 = PrettyTable()
+    tabla1.field_names = ["type", "title", "release_year", "director", "stream_service", "duration", "cast", "country", "listed_in", "description"]
+    tabla1._max_width = {"cast":30,"description":10,"listed_in":15}
+    tabla1.hrules = ALL
+    if lt.size(titles) >= 6:
+        first3 = lt.subList(titles, 1, 3)
+        last3 = lt.subList(titles, lt.size(titles)-2, 3)
+
+        for title in lt.iterator(first3):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+
+        for title in lt.iterator(last3):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    else:
+        for title in lt.iterator(titles):
+            tabla1.add_row([title["type"],title["title"],title["release_year"],title["director"],title["streaming_platform"],
+                title["duration"],title["cast"], title["country"],title["listed_in"],title["description"][0:100]+"(...)"])
+    print(tabla1)
+
 def printreq5(control,country):
     movies,TV_Shows,country_catalog = controller.TitlesByCountry(control,country)
     tabla0 = PrettyTable()
@@ -344,6 +372,9 @@ while True:
     elif int(inputs) == 4:
         actor = input("Ingrese el nombre del actor/actriz: ")
         printReq3(control,actor)
+    elif int(inputs) == 5:
+        generos = input("Ingrese el genero: ")
+        printreq4(control,generos)
     elif int(inputs) == 6:
         pais = input("Ingrese el nombre del pais: ")
         printreq5(control,pais)
