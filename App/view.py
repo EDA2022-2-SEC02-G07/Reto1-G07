@@ -317,7 +317,7 @@ def printMenu():
     print("0- Salir")
 
 control = None
-size = "-small"
+size = "-20pct"
 algorithm = 0
 ListType = "SINGLE_LINKED"
 """
