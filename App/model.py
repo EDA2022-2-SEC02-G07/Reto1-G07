@@ -164,7 +164,7 @@ def ReqsTimeCounts(catalog):
     time2 = getTime()
     lt.addLast(times,round(deltaTime(time1,time2),5))
     time1 = getTime()
-    #re4(catalog,"Fantasy")#req4
+    genero("Fantasy",catalog)
     time2 = getTime()
     lt.addLast(times,round(deltaTime(time1,time2),5))
     time1 = getTime()
