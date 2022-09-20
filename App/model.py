@@ -164,7 +164,7 @@ def ReqsTimeCounts(catalog):
     time2 = getTime()
     lt.addLast(times,round(deltaTime(time1,time2),5))
     time1 = getTime()
-    #re4(catalog,"Fantasy")#req4
+    genero("Fantasy",catalog)
     time2 = getTime()
     lt.addLast(times,round(deltaTime(time1,time2),5))
     time1 = getTime()
@@ -250,6 +250,34 @@ def TitlesByActor(actor,catalog): #Función Principal Requerimiento 3
     merg.sort(titles,ActorCompare)
     return titles,TV_count,Movie_count
 def ActorCompare(title1,title2): #Función Auxiliar Requerimiento 3
+    if title1["title"] < title2["title"]:
+        return True
+    elif title1["title"] == title2["title"]:
+        if title1["release_year"] < title2["release_year"]:
+            return True
+        elif title1["release_year"] == title2["release_year"]:
+            if title1["director"] < title2["director"]:
+                return True
+    else:
+        return False
+def genero(generos, catalog): #principal req 4 
+    contadortv = 0
+    contadorpelicula = 0
+    generoscu = lt.newList()
+    for streaming_service in catalog:
+        for title in lt.iterator(catalog[streaming_service]):
+            if (title["listed_in"] != "" ) and (generos in title["listed_in"]):
+                if title["type"] == "Movie":
+                    contadorpelicula += 1
+                else:
+                    contadortv += 1
+                title["streaming_platform"] = streaming_service
+                title["listed_in"] = title["listed_in"].strip()
+                lt.addLast(generoscu,title)
+    merg.sort(generoscu,cmpgen)
+    return generoscu, contadortv, contadorpelicula
+    
+def cmpgen(title1,title2): #aux req 4 
     if title1["title"] < title2["title"]:
         return True
     elif title1["title"] == title2["title"]:
